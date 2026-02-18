@@ -24,13 +24,18 @@ const renderHeader = () => html`
 `;
 
 const renderHealth = () => {
-  const { current, maximum } = game.state.health;
+  const { current, maximum, temporary } = game.state.health;
+
+  const tempText = temporary > 0 
+    ? html`<span class="hp-temp">(+${temporary} temp)</span>` 
+    : '';
+
   return html`
     <div class="hp-section">
       <h2>HP</h2>
       <div class="hp-controls">
         <button @click=${() => updateAndRender(() => game.damage(1))}>-</button>
-        <span id="hp-display">${current} / ${maximum}</span>
+        <span id="hp-display">${current} / ${maximum} ${tempText}</span>
         <button @click=${() => updateAndRender(() => game.heal(1))}>+</button>
       </div>
     </div>
