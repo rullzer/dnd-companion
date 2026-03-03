@@ -6,6 +6,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
 
 let isConfigOpen = false;
+let hpModal: { type: 'damage' | 'heal'; amount: number } | null = null;
 
 function updateAndRender(action: () => void) {
   action();
@@ -18,25 +19,68 @@ function toggleConfig(open: boolean) {
   draw();
 }
 
+function openHpModal(type: 'damage' | 'heal') {
+  hpModal = { type, amount: 1 };
+  draw();
+}
+
 const renderHeader = () => html`
   <h1>DND Companion</h1>
   <button class="top-config-btn" @click=${() => toggleConfig(true)}>Configure</button>
 `;
 
+const renderHpModal = () => {
+  if (!hpModal) return '';
+
+  const { type, amount } = hpModal;
+  const title = type === 'damage' ? 'Take Damage' : 'Heal';
+
+  const confirm = () => {
+    if (type === 'damage') {
+      game.damage(amount);
+    } else {
+      game.heal(amount);
+    }
+    game.save();
+    hpModal = null;
+    draw();
+  };
+
+  return html`
+    <div class="hp-modal">
+      <div class="config-content">
+        <h3>${title}</h3>
+        <div class="stepper">
+          <button
+            ?disabled=${amount <= 1}
+            @click=${() => { hpModal = { type, amount: amount - 1 }; draw(); }}>-</button>
+          <span>${amount}</span>
+          <button
+            @click=${() => { hpModal = { type, amount: amount + 1 }; draw(); }}>+</button>
+        </div>
+        <div class="config-actions">
+          <button class="primary" @click=${confirm}>Confirm</button>
+          <button @click=${() => { hpModal = null; draw(); }}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
 const renderHealth = () => {
   const { current, maximum, temporary } = game.state.health;
 
-  const tempText = temporary > 0 
-    ? html`<span class="hp-temp">(+${temporary} temp)</span>` 
+  const tempText = temporary > 0
+    ? html`<span class="hp-temp">(+${temporary} temp)</span>`
     : '';
 
   return html`
     <div class="hp-section">
       <h2>HP</h2>
       <div class="hp-controls">
-        <button @click=${() => updateAndRender(() => game.damage(1))}>-</button>
+        <button class="btn-danger" @click=${() => openHpModal('damage')}>Hit</button>
         <span id="hp-display">${current} / ${maximum} ${tempText}</span>
-        <button @click=${() => updateAndRender(() => game.heal(1))}>+</button>
+        <button class="btn-heal" @click=${() => openHpModal('heal')}>Heal</button>
       </div>
     </div>
   `;
@@ -161,6 +205,7 @@ function draw() {
         ${renderHealth()}
         ${renderSpellSlots()}
         ${renderConfig()}
+        ${renderHpModal()}
       </div>
     `,
     app

@@ -99,7 +99,8 @@ h1 {
   color: #fff;
 }
 
-.config-section {
+.config-section,
+.hp-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -110,6 +111,23 @@ h1 {
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   padding: 2em;
   z-index: 1000;
+  display: flex;
+}
+.hp-modal .stepper {
+  justify-content: center;
+  margin-bottom: 1.5em;
+}
+.btn-danger {
+  background: #c0392b;
+}
+.btn-danger:hover {
+  background: #a93226;
+}
+.btn-heal {
+  background: #27ae60;
+}
+.btn-heal:hover {
+  background: #1e8449;
 }
 .config-section h3 {
   margin-top: 0;
