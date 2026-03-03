@@ -11,7 +11,7 @@ export class Health {
 
   public decrease(delta: number): Health {
     if (delta < 0) {
-      return this.increase(-delta)
+      throw new Error('delta must be >= 0')
     }
 
     const tempAbsorbed = Math.min(this.temporary, delta)
@@ -23,7 +23,7 @@ export class Health {
 
   public increase(delta: number): Health {
     if (delta < 0) {
-      return this.decrease(-delta)
+      throw new Error('delta must be >= 0')
     }
 
     return new Health(this.current + delta, this.maximum, this.temporary);
