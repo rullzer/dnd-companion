@@ -37,11 +37,16 @@ export class Game {
   public save(): void {
     localStorage.setItem('currentHealth', this.state.health.current.toString())
     localStorage.setItem('maximumHealth', this.state.health.maximum.toString())
+    localStorage.setItem('temporaryHealth', this.state.health.temporary.toString())
     localStorage.setItem('spellSlots', JSON.stringify(this.state.spellSlots.levels))
   }
 
   public setMaximumHealth(value: number): void {
     this._state.health = this._state.health.setMaximum(value)
+  }
+
+  public setTemporaryHealth(value: number): void {
+    this._state.health = this._state.health.setTemporary(value)
   }
 
   public setSpellLevels(levels: number): void {
@@ -56,6 +61,7 @@ export class Game {
     const health = new Health(
       Number(localStorage.getItem('currentHealth')) || 40,
       Number(localStorage.getItem('maximumHealth')) || 40,
+      Number(localStorage.getItem('temporaryHealth')) || 0,
     )
     
     let spellSlots: SpellSlots

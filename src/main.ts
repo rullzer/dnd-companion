@@ -6,7 +6,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
 
 let isConfigOpen = false;
-let hpModal: { type: 'damage' | 'heal'; amount: number } | null = null;
+let hpModal: { type: 'damage' | 'heal' | 'temp'; amount: number } | null = null;
 
 function updateAndRender(action: () => void) {
   action();
@@ -19,8 +19,9 @@ function toggleConfig(open: boolean) {
   draw();
 }
 
-function openHpModal(type: 'damage' | 'heal') {
-  hpModal = { type, amount: 1 };
+function openHpModal(type: 'damage' | 'heal' | 'temp') {
+  const amount = type === 'temp' ? game.state.health.temporary : 1;
+  hpModal = { type, amount };
   draw();
 }
 
@@ -33,13 +34,16 @@ const renderHpModal = () => {
   if (!hpModal) return '';
 
   const { type, amount } = hpModal;
-  const title = type === 'damage' ? 'Take Damage' : 'Heal';
+  const title = type === 'damage' ? 'Take Damage' : type === 'heal' ? 'Heal' : 'Set Temp HP';
+  const minAmount = type === 'temp' ? 0 : 1;
 
   const confirm = () => {
     if (type === 'damage') {
       game.damage(amount);
-    } else {
+    } else if (type === 'heal') {
       game.heal(amount);
+    } else {
+      game.setTemporaryHealth(amount);
     }
     game.save();
     hpModal = null;
@@ -52,7 +56,7 @@ const renderHpModal = () => {
         <h3>${title}</h3>
         <div class="stepper">
           <button
-            ?disabled=${amount <= 1}
+            ?disabled=${amount <= minAmount}
             @click=${() => { hpModal = { type, amount: amount - 1 }; draw(); }}>-</button>
           <span>${amount}</span>
           <button
@@ -81,6 +85,9 @@ const renderHealth = () => {
         <button class="btn-danger" @click=${() => openHpModal('damage')}>Hit</button>
         <span id="hp-display">${current} / ${maximum} ${tempText}</span>
         <button class="btn-heal" @click=${() => openHpModal('heal')}>Heal</button>
+      </div>
+      <div class="hp-temp-row">
+        <button class="btn-temp" @click=${() => openHpModal('temp')}>Temp HP</button>
       </div>
     </div>
   `;

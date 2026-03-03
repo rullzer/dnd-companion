@@ -129,6 +129,15 @@ h1 {
 .btn-heal:hover {
   background: #1e8449;
 }
+.btn-temp {
+  background: #2980b9;
+}
+.btn-temp:hover {
+  background: #2471a3;
+}
+.hp-temp-row {
+  margin-top: 0.75em;
+}
 .config-section h3 {
   margin-top: 0;
 }
