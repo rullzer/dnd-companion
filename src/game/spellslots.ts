@@ -17,8 +17,12 @@ export class SpellSlots {
     }));
   }
 
+  private isInvalidLevel(level: number): boolean {
+    return level <= 0 || level > 9;
+  }
+
   public adjust(level: number, delta: number): SpellSlots {
-    if (level <= 0 || level > 9) {
+    if (this.isInvalidLevel(level)) {
       return this
     }
 
@@ -26,7 +30,7 @@ export class SpellSlots {
   }
 
   public cast(level: number): SpellSlots {
-    if ((level <= 0 || level > 9)) {
+    if (this.isInvalidLevel(level)) {
       return this
     }
 
@@ -34,7 +38,7 @@ export class SpellSlots {
   }
 
   public regain(level: number): SpellSlots {
-    if ((level <= 0 || level > 9)) {
+    if (this.isInvalidLevel(level)) {
       return this
     }
 
@@ -46,7 +50,7 @@ export class SpellSlots {
   }
 
   public setTotal(level: number, total: number): SpellSlots {
-    if (level <= 0 || level > 9) {
+    if (this.isInvalidLevel(level)) {
       return this
     }
 
