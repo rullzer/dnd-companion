@@ -114,11 +114,36 @@ h1 {
 .config-section h3 {
   margin-top: 0;
 }
-.config-section label {
-  display: block;
+.config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1em;
 }
-.config-section button {
+.config-slots-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.config-slot-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.stepper span {
+  min-width: 2em;
+  text-align: center;
+}
+.stepper button {
+  padding: 0.5em 0.8em;
+}
+.config-actions button {
   margin-right: 1em;
 }
 button {

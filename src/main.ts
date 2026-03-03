@@ -104,16 +104,27 @@ const renderConfig = () => {
         
         <div class="config-row">
           <label>Max HP:</label>
-          <input type="number" min="1" 
-            .value=${health.maximum} 
-            @change=${(e: Event) => updateAndRender(() => game.setMaximumHealth(Number((e.target as HTMLInputElement).value)))} />
+          <div class="stepper">
+            <button
+              ?disabled=${health.maximum <= 1}
+              @click=${() => updateAndRender(() => game.setMaximumHealth(health.maximum - 1))}>-</button>
+            <span>${health.maximum}</span>
+            <button
+              @click=${() => updateAndRender(() => game.setMaximumHealth(health.maximum + 1))}>+</button>
+          </div>
         </div>
 
         <div class="config-row">
           <label>Spell Levels:</label>
-          <input type="number" min="1" max="9" 
-            .value=${spellSlots.levels.length} 
-            @change=${(e: Event) => updateAndRender(() => game.setSpellLevels(Number((e.target as HTMLInputElement).value)))} />
+          <div class="stepper">
+            <button
+              ?disabled=${spellSlots.levels.length <= 1}
+              @click=${() => updateAndRender(() => game.setSpellLevels(spellSlots.levels.length - 1))}>-</button>
+            <span>${spellSlots.levels.length}</span>
+            <button
+              ?disabled=${spellSlots.levels.length >= 9}
+              @click=${() => updateAndRender(() => game.setSpellLevels(spellSlots.levels.length + 1))}>+</button>
+          </div>
         </div>
 
         <h4>Spell Slot Totals</h4>
@@ -121,9 +132,14 @@ const renderConfig = () => {
           ${spellSlots.levels.map((level, i) => html`
             <div class="config-slot-item">
               <label>Lvl ${i + 1}</label>
-              <input type="number" min="0" 
-                .value=${level.total} 
-                @change=${(e: Event) => updateAndRender(() => game.setTotalSpellSlots(i + 1, Number((e.target as HTMLInputElement).value)))} />
+              <div class="stepper">
+                <button
+                  ?disabled=${level.total <= 0}
+                  @click=${() => updateAndRender(() => game.setTotalSpellSlots(i + 1, level.total - 1))}>-</button>
+                <span>${level.total}</span>
+                <button
+                  @click=${() => updateAndRender(() => game.setTotalSpellSlots(i + 1, level.total + 1))}>+</button>
+              </div>
             </div>
           `)}
         </div>
