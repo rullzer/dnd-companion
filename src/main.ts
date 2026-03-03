@@ -106,14 +106,14 @@ const renderConfig = () => {
           <label>Max HP:</label>
           <input type="number" min="1" 
             .value=${health.maximum} 
-            @change=${(e: any) => updateAndRender(() => game.setMaximumHealth(Number(e.target.value)))} />
+            @change=${(e: Event) => updateAndRender(() => game.setMaximumHealth(Number((e.target as HTMLInputElement).value)))} />
         </div>
 
         <div class="config-row">
           <label>Spell Levels:</label>
           <input type="number" min="1" max="9" 
             .value=${spellSlots.levels.length} 
-            @change=${(e: any) => updateAndRender(() => game.setSpellLevels(Number(e.target.value)))} />
+            @change=${(e: Event) => updateAndRender(() => game.setSpellLevels(Number((e.target as HTMLInputElement).value)))} />
         </div>
 
         <h4>Spell Slot Totals</h4>
@@ -123,7 +123,7 @@ const renderConfig = () => {
               <label>Lvl ${i + 1}</label>
               <input type="number" min="0" 
                 .value=${level.total} 
-                @change=${(e: any) => updateAndRender(() => game.setTotalSpellSlots(i + 1, Number(e.target.value)))} />
+                @change=${(e: Event) => updateAndRender(() => game.setTotalSpellSlots(i + 1, Number((e.target as HTMLInputElement).value)))} />
             </div>
           `)}
         </div>
