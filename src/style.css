@@ -3,17 +3,8 @@
   margin: 0 auto 2em auto;
   padding: 0.7em 2em;
   font-size: 1.1em;
-  border-radius: 8px;
-  border: none;
-  background: #646cff;
-  color: #fff;
-  cursor: pointer;
   font-weight: bold;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background 0.2s;
-}
-.top-config-btn:hover {
-  background: #535bf2;
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -84,17 +75,6 @@ h1 {
 
 .hp-section button, .spell-section button {
   margin: 0 0.5em;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  border-radius: 6px;
-  border: none;
-  background: #646cff;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.hp-section button:hover, .spell-section button:hover {
-  background: #535bf2;
 }
 
 .spell-table {
@@ -143,21 +123,26 @@ h1 {
 }
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border: none;
+  padding: 0.5em 1em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background: #646cff;
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background 0.2s;
 }
 button:hover {
-  border-color: #646cff;
+  background: #535bf2;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 @media (prefers-color-scheme: light) {
@@ -168,12 +153,5 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
-button:disabled {
-  pointer-events: none; /* The element will never become the target of mouse events */
-  opacity: 0.5;
-}
