@@ -104,7 +104,7 @@ const renderSpellSlots = () => {
           <tr>
             <th>Lvl</th>
             <th>Total</th>
-            <th>Used</th>
+            <th>Left</th>
             <th>Cast / Regain</th>
           </tr>
         </thead>
@@ -113,6 +113,7 @@ const renderSpellSlots = () => {
             const lvl = index + 1;
             const isDepleted = level.used >= level.total;
             const isFull = level.used <= 0;
+            const remaining = level.total - level.used;
 
             return html`
               <tr>
@@ -120,7 +121,7 @@ const renderSpellSlots = () => {
                 <td>${level.total}</td>
                 <td>
                   <span class="slot-used ${isDepleted ? 'depleted' : ''}">
-                    ${level.used}
+                    ${remaining}
                   </span>
                 </td>
                 <td>
