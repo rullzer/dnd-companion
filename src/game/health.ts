@@ -30,7 +30,7 @@ export class Health {
   }
 
   public setMaximum(newMaximum: number): Health {
-    return new Health(this.current, newMaximum);
+    return new Health(this.current, newMaximum, this.temporary);
   }
 
   public setTemporary(value: number): Health {
