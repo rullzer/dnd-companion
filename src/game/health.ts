@@ -14,8 +14,9 @@ export class Health {
       return this.increase(-delta)
     }
 
-    const newTemporary = this.temporary - Math.min(this.temporary, delta)
-    const newDelta = delta - Math.min(this.temporary, delta)
+    const tempAbsorbed = Math.min(this.temporary, delta)
+    const newTemporary = this.temporary - tempAbsorbed
+    const newDelta = delta - tempAbsorbed
 
     return new Health(this.current - newDelta, this.maximum, newTemporary);
   }
