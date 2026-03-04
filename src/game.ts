@@ -46,6 +46,14 @@ export class Game {
     localStorage.setItem('spellSlots', JSON.stringify(this.state.spellSlots.levels))
   }
 
+  public snapshot(): State {
+    return { ...this._state }
+  }
+
+  public restore(state: State): void {
+    this._state = state
+  }
+
   public setMaximumHealth(value: number): void {
     this._state.health = this._state.health.setMaximum(value)
   }

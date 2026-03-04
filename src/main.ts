@@ -6,6 +6,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
 
 let isConfigOpen = false;
+let configSnapshot: ReturnType<typeof game.snapshot> | null = null;
 let hpModal: { type: 'damage' | 'heal' | 'temp'; amount: number } | null = null;
 
 function updateAndRender(action: () => void) {
@@ -14,8 +15,28 @@ function updateAndRender(action: () => void) {
   draw();
 }
 
-function toggleConfig(open: boolean) {
-  isConfigOpen = open;
+function updateConfigAndRender(action: () => void) {
+  action();
+  draw();
+}
+
+function openConfig() {
+  configSnapshot = game.snapshot();
+  isConfigOpen = true;
+  draw();
+}
+
+function saveConfig() {
+  game.save();
+  configSnapshot = null;
+  isConfigOpen = false;
+  draw();
+}
+
+function cancelConfig() {
+  if (configSnapshot) game.restore(configSnapshot);
+  configSnapshot = null;
+  isConfigOpen = false;
   draw();
 }
 
@@ -27,7 +48,7 @@ function openHpModal(type: 'damage' | 'heal' | 'temp') {
 
 const renderHeader = () => html`
   <h1>DND Companion</h1>
-  <button class="top-config-btn" @click=${() => toggleConfig(true)}>Configure</button>
+  <button class="top-config-btn" @click=${openConfig}>Configure</button>
 `;
 
 const renderHpModal = () => {
@@ -161,10 +182,10 @@ const renderConfig = () => {
           <div class="stepper">
             <button
               ?disabled=${health.maximum <= 1}
-              @click=${() => updateAndRender(() => game.setMaximumHealth(health.maximum - 1))}>-</button>
+              @click=${() => updateConfigAndRender(() => game.setMaximumHealth(health.maximum - 1))}>-</button>
             <span>${health.maximum}</span>
             <button
-              @click=${() => updateAndRender(() => game.setMaximumHealth(health.maximum + 1))}>+</button>
+              @click=${() => updateConfigAndRender(() => game.setMaximumHealth(health.maximum + 1))}>+</button>
           </div>
         </div>
 
@@ -173,11 +194,11 @@ const renderConfig = () => {
           <div class="stepper">
             <button
               ?disabled=${spellSlots.levels.length <= 0}
-              @click=${() => updateAndRender(() => game.setSpellLevels(spellSlots.levels.length - 1))}>-</button>
+              @click=${() => updateConfigAndRender(() => game.setSpellLevels(spellSlots.levels.length - 1))}>-</button>
             <span>${spellSlots.levels.length}</span>
             <button
               ?disabled=${spellSlots.levels.length >= 9}
-              @click=${() => updateAndRender(() => game.setSpellLevels(spellSlots.levels.length + 1))}>+</button>
+              @click=${() => updateConfigAndRender(() => game.setSpellLevels(spellSlots.levels.length + 1))}>+</button>
           </div>
         </div>
 
@@ -189,18 +210,18 @@ const renderConfig = () => {
               <div class="stepper">
                 <button
                   ?disabled=${level.total <= 0}
-                  @click=${() => updateAndRender(() => game.setTotalSpellSlots(i + 1, level.total - 1))}>-</button>
+                  @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total - 1))}>-</button>
                 <span>${level.total}</span>
                 <button
-                  @click=${() => updateAndRender(() => game.setTotalSpellSlots(i + 1, level.total + 1))}>+</button>
+                  @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total + 1))}>+</button>
               </div>
             </div>
           `)}
         </div>
 
         <div class="config-actions">
-          <button class="primary" @click=${() => toggleConfig(false)}>Save & Close</button>
-          <button @click=${() => toggleConfig(false)}>Cancel</button>
+          <button class="primary" @click=${saveConfig}>Save & Close</button>
+          <button @click=${cancelConfig}>Cancel</button>
         </div>
       </div>
     </div>
