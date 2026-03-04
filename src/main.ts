@@ -47,8 +47,14 @@ function openHpModal(type: 'damage' | 'heal' | 'temp') {
 }
 
 const renderHeader = () => html`
-  <h1>DND Companion</h1>
-  <button class="top-config-btn" @click=${openConfig}>Configure</button>
+  <div class="header">
+    <h1>DND Companion</h1>
+    <button class="config-icon-btn" @click=${openConfig} aria-label="Configure">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+        <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.34.07-.69.07-1.08s-.03-.74-.07-1.08l2.32-1.82c.21-.16.27-.46.13-.7l-2.2-3.81c-.14-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.44-1.18-.8-1.86-1.07L14.05 2.3C14 2.04 13.77 1.84 13.5 1.84h-4.4c-.27 0-.5.2-.54.46L8.2 4.49c-.68.27-1.3.63-1.86 1.07L3.6 4.46c-.24-.09-.52 0-.66.24L.74 8.51c-.14.24-.08.54.13.7l2.32 1.82C3.15 11.37 3.12 11.72 3.12 12s.03.63.07.92L.87 14.74c-.21.16-.27.46-.13.7l2.2 3.81c.14.24.42.32.66.24l2.74-1.1c.57.44 1.18.8 1.86 1.07l.36 2.19c.04.26.27.46.54.46h4.4c.27 0 .5-.2.54-.46l.36-2.19c.68-.27 1.3-.63 1.86-1.07l2.74 1.1c.24.09.52 0 .66-.24l2.2-3.81c.14-.24.08-.54-.13-.7l-2.32-1.82z"/>
+      </svg>
+    </button>
+  </div>
 `;
 
 const renderHpModal = () => {

@@ -2,13 +2,26 @@
   box-sizing: border-box;
 }
 
-.top-config-btn {
-  display: block;
-  margin: 0 auto 2em auto;
-  padding: 0.7em 2em;
-  font-size: 1.1em;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5em;
+}
+.config-icon-btn {
+  position: absolute;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  padding: 0.4em;
+  line-height: 0;
+  border-radius: 50%;
+}
+.config-icon-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
