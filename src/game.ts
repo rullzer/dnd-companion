@@ -18,7 +18,7 @@ export class Game {
     this._state = state
   }
 
-  public cast(level: number) {
+  public cast(level: number): void {
     this._state.spellSlots = this._state.spellSlots.cast(level)
   }
 
