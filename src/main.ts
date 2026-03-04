@@ -47,6 +47,10 @@ function openHpModal(type: 'damage' | 'heal' | 'temp') {
   draw();
 }
 
+function setHpAmount(amount: number) {
+  if (hpModal) { hpModal = { ...hpModal, amount }; draw(); }
+}
+
 const renderHeader = () => html`
   <div class="header">
     <h1>DND Companion</h1>
@@ -85,10 +89,10 @@ const renderHpModal = () => {
         <div class="stepper">
           <button
             ?disabled=${amount <= minAmount}
-            @click=${() => { hpModal = { type, amount: amount - 1 }; draw(); }}>-</button>
+            @click=${() => setHpAmount(amount - 1)}>-</button>
           <span>${amount}</span>
           <button
-            @click=${() => { hpModal = { type, amount: amount + 1 }; draw(); }}>+</button>
+            @click=${() => setHpAmount(amount + 1)}>+</button>
         </div>
         <div class="config-actions">
           <button class="primary" @click=${confirm}>Confirm</button>
@@ -253,4 +257,8 @@ function draw() {
   );
 }
 
-draw();
+function init() {
+  draw();
+}
+
+init();
