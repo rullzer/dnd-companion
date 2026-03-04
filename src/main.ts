@@ -120,7 +120,7 @@ const renderSpellSlots = () => {
                 <td>${lvl}</td>
                 <td>${level.total}</td>
                 <td>
-                  <span class="slot-used ${isDepleted ? 'depleted' : ''}">
+                  <span class="slot-remaining ${isDepleted ? 'depleted' : ''}">
                     ${remaining}
                   </span>
                 </td>
