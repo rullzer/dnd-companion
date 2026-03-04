@@ -39,6 +39,14 @@ export class Game {
     this._state = { ...this._state, spellSlots: this._state.spellSlots.regain(level) }
   }
 
+  public longRest(): void {
+    this._state = {
+      ...this._state,
+      health: this._state.health.restore(),
+      spellSlots: this._state.spellSlots.restoreAll(),
+    }
+  }
+
   public adjustCurrency(type: CurrencyType, delta: number): void {
     this._state = { ...this._state, currency: this._state.currency.adjust(type, delta) }
   }

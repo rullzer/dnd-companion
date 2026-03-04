@@ -49,6 +49,10 @@ export class SpellSlots {
     return new SpellSlots(this.padLevels(count).slice(0, count))
   }
 
+  public restoreAll(): SpellSlots {
+    return new SpellSlots(this.levels.map(level => ({ ...level, used: 0 })))
+  }
+
   public setTotal(level: number, total: number): SpellSlots {
     if (this.isInvalidLevel(level)) {
       return this

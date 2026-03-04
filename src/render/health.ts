@@ -6,6 +6,7 @@ export type HpModal = { type: 'damage' | 'heal' | 'temp'; amount: number };
 export const renderHealth = (
   health: Health,
   onOpenModal: (type: HpModal['type']) => void,
+  onLongRest: () => void,
 ) => {
   const { current, maximum, temporary } = health;
 
@@ -23,6 +24,7 @@ export const renderHealth = (
       </div>
       <div class="hp-temp-row">
         <button class="btn-temp" @click=${() => onOpenModal('temp')}>Temp HP</button>
+        <button class="btn-rest" @click=${onLongRest}>Long Rest</button>
       </div>
     </div>
   `;

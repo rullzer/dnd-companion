@@ -36,4 +36,8 @@ export class Health {
   public setTemporary(value: number): Health {
     return new Health(this.current, this.maximum, value);
   }
+
+  public restore(): Health {
+    return new Health(this.maximum, this.maximum);
+  }
 }

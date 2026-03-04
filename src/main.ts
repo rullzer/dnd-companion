@@ -6,6 +6,7 @@ import { renderHeader } from './render/header';
 import { renderHealth, renderHpModal, type HpModal } from './render/health';
 import { renderSpellSlots } from './render/spellslots';
 import { renderConfig } from './render/config';
+import { renderConfirmModal } from './render/confirm';
 import { renderDice } from './render/dice';
 import { rollDie, type Die, type DiceResult } from './game/dice';
 import { renderCurrency } from './render/currency';
@@ -17,6 +18,7 @@ const game = Game.createInitial();
 let isConfigOpen = false;
 let configSnapshot: State | null = null;
 let hpModal: HpModal | null = null;
+let confirmModal: { message: string; onConfirm: () => void } | null = null;
 let diceModifier = 0;
 let diceResult: DiceResult | null = null;
 
@@ -78,6 +80,11 @@ function setDiceModifier(value: number) {
   draw();
 }
 
+function openConfirmModal(message: string, onConfirm: () => void) {
+  confirmModal = { message, onConfirm };
+  draw();
+}
+
 function adjustCurrency(type: CurrencyType, delta: number) {
   updateAndRender(() => game.adjustCurrency(type, delta));
 }
@@ -93,7 +100,10 @@ function draw() {
     html`
       <div class="container">
         ${renderHeader(openConfig)}
-        ${renderHealth(health, openHpModal)}
+        ${renderHealth(health, openHpModal, () => openConfirmModal(
+          'Take a long rest?',
+          () => updateAndRender(() => { game.longRest(); confirmModal = null; }),
+        ))}
         ${renderSpellSlots(
           spellSlots.levels,
           (lvl) => updateAndRender(() => game.cast(lvl)),
@@ -109,6 +119,11 @@ function draw() {
           (v) => updateConfigAndRender(() => game.setMaximumHealth(v)),
           (v) => updateConfigAndRender(() => game.setSpellLevels(v)),
           (lvl, total) => updateConfigAndRender(() => game.setTotalSpellSlots(lvl, total)),
+        ) : ''}
+        ${confirmModal ? renderConfirmModal(
+          confirmModal.message,
+          confirmModal.onConfirm,
+          () => { confirmModal = null; draw(); },
         ) : ''}
         ${hpModal ? renderHpModal(
           hpModal,
