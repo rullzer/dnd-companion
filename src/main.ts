@@ -8,6 +8,8 @@ import { renderSpellSlots } from './render/spellslots';
 import { renderConfig } from './render/config';
 import { renderDice } from './render/dice';
 import { rollDie, type Die, type DiceResult } from './game/dice';
+import { renderCurrency } from './render/currency';
+import type { CurrencyType } from './game/currency';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
@@ -76,6 +78,10 @@ function setDiceModifier(value: number) {
   draw();
 }
 
+function adjustCurrency(type: CurrencyType, delta: number) {
+  updateAndRender(() => game.adjustCurrency(type, delta));
+}
+
 function setHpAmount(amount: number) {
   if (hpModal) { hpModal = { ...hpModal, amount }; draw(); }
 }
@@ -94,6 +100,7 @@ function draw() {
           (lvl) => updateAndRender(() => game.regainSpellSlot(lvl)),
         )}
         ${renderDice(diceModifier, diceResult, handleRollDie, setDiceModifier)}
+        ${renderCurrency(game.state.currency, adjustCurrency)}
         ${isConfigOpen ? renderConfig(
           health,
           spellSlots,

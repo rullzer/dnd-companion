@@ -73,7 +73,7 @@ h1 {
 }
 
 
-.hp-section, .spell-section, .dice-section {
+.hp-section, .spell-section, .dice-section, .currency-section {
   background: #333;
   border-radius: 12px;
   padding: 1.5em;
@@ -86,11 +86,11 @@ h1 {
   display: block;
 }
 
-.hp-section h2, .spell-section h2, .dice-section h2 {
+.hp-section h2, .spell-section h2, .dice-section h2, .currency-section h2 {
   margin-top: 0;
 }
 
-.hp-section button, .spell-section button, .dice-section button {
+.hp-section button, .spell-section button, .dice-section button, .currency-section button {
   margin: 0 0.5em;
 }
 
@@ -157,6 +157,36 @@ h1 {
 }
 .btn-temp:hover {
   background: #2471a3;
+}
+.currency-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.currency-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.currency-label {
+  text-align: left;
+}
+.currency-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.currency-amount {
+  min-width: 2.5em;
+  text-align: center;
+}
+.currency-total {
+  border-top: 1px solid #444;
+  padding-top: 0.75em;
+  text-align: right;
+  opacity: 0.7;
+  font-size: 0.95em;
 }
 .dice-buttons {
   display: flex;
