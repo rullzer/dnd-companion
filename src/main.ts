@@ -96,6 +96,8 @@ const renderHealth = () => {
 const renderSpellSlots = () => {
   const levels = game.state.spellSlots.levels;
 
+  if (levels.length === 0) return '';
+
   return html`
     <div class="spell-section">
       <h2>Spell Slots</h2>
@@ -170,7 +172,7 @@ const renderConfig = () => {
           <label>Spell Levels:</label>
           <div class="stepper">
             <button
-              ?disabled=${spellSlots.levels.length <= 1}
+              ?disabled=${spellSlots.levels.length <= 0}
               @click=${() => updateAndRender(() => game.setSpellLevels(spellSlots.levels.length - 1))}>-</button>
             <span>${spellSlots.levels.length}</span>
             <button
