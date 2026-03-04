@@ -202,25 +202,27 @@ const renderConfig = () => {
           </div>
         </div>
 
-        <h4>Spell Slot Totals</h4>
-        <div class="config-slots-grid">
-          ${spellSlots.levels.map((level, i) => html`
-            <div class="config-slot-item">
-              <label>Lvl ${i + 1}</label>
-              <div class="stepper">
-                <button
-                  ?disabled=${level.total <= 0}
-                  @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total - 1))}>-</button>
-                <span>${level.total}</span>
-                <button
-                  @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total + 1))}>+</button>
+        ${spellSlots.levels.length > 0 ? html`
+          <h4>Spell Slot Totals</h4>
+          <div class="config-slots-grid">
+            ${spellSlots.levels.map((level, i) => html`
+              <div class="config-slot-item">
+                <label>Lvl ${i + 1}</label>
+                <div class="stepper">
+                  <button
+                    ?disabled=${level.total <= 0}
+                    @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total - 1))}>-</button>
+                  <span>${level.total}</span>
+                  <button
+                    @click=${() => updateConfigAndRender(() => game.setTotalSpellSlots(i + 1, level.total + 1))}>+</button>
+                </div>
               </div>
-            </div>
-          `)}
-        </div>
+            `)}
+          </div>
+        ` : ''}
 
         <div class="config-actions">
-          <button class="primary" @click=${saveConfig}>Save & Close</button>
+          <button class="primary" @click=${saveConfig}>Save</button>
           <button @click=${cancelConfig}>Cancel</button>
         </div>
       </div>
