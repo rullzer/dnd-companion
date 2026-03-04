@@ -24,19 +24,19 @@ export class Game {
   }
 
   public cast(level: number): void {
-    this._state.spellSlots = this._state.spellSlots.cast(level)
+    this._state = { ...this._state, spellSlots: this._state.spellSlots.cast(level) }
   }
 
   public damage(delta: number): void {
-    this._state.health = this._state.health.decrease(delta)
+    this._state = { ...this._state, health: this._state.health.decrease(delta) }
   }
 
   public heal(delta: number): void {
-    this._state.health = this._state.health.increase(delta)
+    this._state = { ...this._state, health: this._state.health.increase(delta) }
   }
 
   public regainSpellSlot(level: number): void {
-    this._state.spellSlots = this._state.spellSlots.regain(level)
+    this._state = { ...this._state, spellSlots: this._state.spellSlots.regain(level) }
   }
 
   public save(): void {
@@ -55,19 +55,19 @@ export class Game {
   }
 
   public setMaximumHealth(value: number): void {
-    this._state.health = this._state.health.setMaximum(value)
+    this._state = { ...this._state, health: this._state.health.setMaximum(value) }
   }
 
   public setTemporaryHealth(value: number): void {
-    this._state.health = this._state.health.setTemporary(value)
+    this._state = { ...this._state, health: this._state.health.setTemporary(value) }
   }
 
   public setSpellLevels(levels: number): void {
-    this._state.spellSlots = this._state.spellSlots.setLevels(levels)
+    this._state = { ...this._state, spellSlots: this._state.spellSlots.setLevels(levels) }
   }
 
   public setTotalSpellSlots(level: number, total: number): void {
-    this._state.spellSlots = this._state.spellSlots.setTotal(level, total)
+    this._state = { ...this._state, spellSlots: this._state.spellSlots.setTotal(level, total) }
   }
 
   public static createInitial(): Game {
