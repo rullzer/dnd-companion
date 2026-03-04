@@ -1,12 +1,13 @@
 import './style.css';
 import { html, render } from 'lit-html';
 import { Game } from './game';
+import type { State } from './game/state';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
 
 let isConfigOpen = false;
-let configSnapshot: ReturnType<typeof game.snapshot> | null = null;
+let configSnapshot: State | null = null;
 let hpModal: { type: 'damage' | 'heal' | 'temp'; amount: number } | null = null;
 
 function updateAndRender(action: () => void) {
