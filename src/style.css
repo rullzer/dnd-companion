@@ -73,7 +73,7 @@ h1 {
 }
 
 
-.hp-section, .spell-section {
+.hp-section, .spell-section, .dice-section {
   background: #333;
   border-radius: 12px;
   padding: 1.5em;
@@ -86,11 +86,11 @@ h1 {
   display: block;
 }
 
-.hp-section h2, .spell-section h2 {
+.hp-section h2, .spell-section h2, .dice-section h2 {
   margin-top: 0;
 }
 
-.hp-section button, .spell-section button {
+.hp-section button, .spell-section button, .dice-section button {
   margin: 0 0.5em;
 }
 
@@ -157,6 +157,43 @@ h1 {
 }
 .btn-temp:hover {
   background: #2471a3;
+}
+.dice-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.die-btn {
+  background: #7d3c98;
+  min-width: 3em;
+}
+.die-btn:hover {
+  background: #6c3483;
+}
+.dice-modifier {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+.dice-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5em;
+  gap: 0.25em;
+}
+.dice-result-total {
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 1;
+}
+.dice-result-breakdown {
+  font-size: 0.9em;
+  opacity: 0.6;
 }
 .hp-temp-row {
   margin-top: 0.75em;

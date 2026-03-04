@@ -6,6 +6,8 @@ import { renderHeader } from './render/header';
 import { renderHealth, renderHpModal, type HpModal } from './render/health';
 import { renderSpellSlots } from './render/spellslots';
 import { renderConfig } from './render/config';
+import { renderDice } from './render/dice';
+import { rollDie, type Die, type DiceResult } from './game/dice';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const game = Game.createInitial();
@@ -13,6 +15,8 @@ const game = Game.createInitial();
 let isConfigOpen = false;
 let configSnapshot: State | null = null;
 let hpModal: HpModal | null = null;
+let diceModifier = 0;
+let diceResult: DiceResult | null = null;
 
 function updateAndRender(action: () => void) {
   action();
@@ -62,6 +66,16 @@ function confirmHpModal() {
   draw();
 }
 
+function handleRollDie(die: Die) {
+  diceResult = rollDie(die, diceModifier);
+  draw();
+}
+
+function setDiceModifier(value: number) {
+  diceModifier = value;
+  draw();
+}
+
 function setHpAmount(amount: number) {
   if (hpModal) { hpModal = { ...hpModal, amount }; draw(); }
 }
@@ -79,6 +93,7 @@ function draw() {
           (lvl) => updateAndRender(() => game.cast(lvl)),
           (lvl) => updateAndRender(() => game.regainSpellSlot(lvl)),
         )}
+        ${renderDice(diceModifier, diceResult, handleRollDie, setDiceModifier)}
         ${isConfigOpen ? renderConfig(
           health,
           spellSlots,
