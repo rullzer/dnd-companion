@@ -176,11 +176,12 @@ const renderSpellSlots = () => {
 };
 
 const renderConfig = () => {
-  const style = isConfigOpen ? 'display:flex' : 'display:none';
+  if (!isConfigOpen) return '';
+
   const { health, spellSlots } = game.state;
 
   return html`
-    <div class="config-section" style="${style}">
+    <div class="config-section">
       <div class="config-content">
         <h3>Configure Character</h3>
         
