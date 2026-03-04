@@ -73,14 +73,10 @@ export class Game {
 
     try {
       const stored = localStorage.getItem('spellSlots')
-
-      if (stored) {
-        spellSlots = new SpellSlots(JSON.parse(stored))
-      }
+      spellSlots = stored ? new SpellSlots(JSON.parse(stored)) : new SpellSlots(DEFAULT_SLOTS)
     } catch (e) {
       console.warn('Failed to parse stored spell slots, reverting to default', e)
-    } finally {
-      spellSlots ??= new SpellSlots(DEFAULT_SLOTS)
+      spellSlots = new SpellSlots(DEFAULT_SLOTS)
     }
 
     return new Game({
