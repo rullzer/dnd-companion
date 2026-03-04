@@ -11,7 +11,7 @@ let hpModal: { type: 'damage' | 'heal' | 'temp'; amount: number } | null = null;
 
 function updateAndRender(action: () => void) {
   action();
-  game.save(); // Auto-save on every change, matching your current logic
+  game.save();
   draw();
 }
 
