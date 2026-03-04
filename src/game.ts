@@ -3,6 +3,11 @@ import type { State } from './game/state'
 
 import { Health } from './game/health';
 
+function loadNumber(key: string, fallback: number): number {
+  const stored = localStorage.getItem(key)
+  return stored !== null ? Number(stored) : fallback
+}
+
 const DEFAULT_SLOTS: SpellLevel[] = [
   { total: 4, used: 0 }, { total: 3, used: 0 },
 ];
@@ -59,9 +64,9 @@ export class Game {
 
   public static createInitial(): Game {
     const health = new Health(
-      Number(localStorage.getItem('currentHealth')) || 40,
-      Number(localStorage.getItem('maximumHealth')) || 40,
-      Number(localStorage.getItem('temporaryHealth')) || 0,
+      loadNumber('currentHealth', 40),
+      loadNumber('maximumHealth', 40),
+      loadNumber('temporaryHealth', 0),
     )
     
     let spellSlots: SpellSlots
