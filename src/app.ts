@@ -26,9 +26,9 @@ export class App {
     return new App(gameState, this.storage, nextAppState)
   }
 
-  private save(gameState: State): App {
+  private save(gameState: State, appState?: Partial<AppState>): App {
     this.storage.save(gameState)
-    return this.update(gameState)
+    return this.update(gameState, appState)
   }
 
   public needsSetup(): boolean {
@@ -44,8 +44,7 @@ export class App {
   }
 
   public saveConfig(): App {
-    this.storage.save(this.gameState)
-    return this.update(this.gameState, { isConfigOpen: false, configSnapshot: null })
+    return this.save(this.gameState, { isConfigOpen: false, configSnapshot: null })
   }
 
   public cancelConfig(): App {
@@ -65,7 +64,7 @@ export class App {
     if (type === 'damage') gameState = actions.damage(gameState, amount)
     else if (type === 'heal') gameState = actions.heal(gameState, amount)
     else gameState = actions.setTemporaryHealth(gameState, amount)
-    return this.save(gameState).update(gameState, { hpModal: null })
+    return this.save(gameState, { hpModal: null })
   }
 
   public closeHpModal(): App {

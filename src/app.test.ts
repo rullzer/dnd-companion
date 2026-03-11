@@ -159,6 +159,86 @@ describe('App.confirmHpModal', () => {
   })
 })
 
+describe('App.longRest', () => {
+  it('restores health to maximum', () => {
+    expect(makeApp().longRest().gameState.health.current).toBe(20)
+  })
+
+  it('restores spell slots', () => {
+    expect(makeApp().longRest().gameState.spellSlots.levels[0].used).toBe(0)
+  })
+
+  it('saves to storage', () => {
+    const storage = new GameStorage()
+    const app = new App(makeState(), storage, createInitialAppState())
+    const next = app.longRest()
+    expect(storage.load().health.current).toBe(next.gameState.health.current)
+  })
+})
+
+describe('App.cast', () => {
+  it('uses a spell slot', () => {
+    expect(makeApp().cast(1).gameState.spellSlots.levels[0].used).toBe(2)
+  })
+
+  it('saves to storage', () => {
+    const storage = new GameStorage()
+    const app = new App(makeState(), storage, createInitialAppState())
+    app.cast(1)
+    expect(storage.load().spellSlots.levels[0].used).toBe(2)
+  })
+})
+
+describe('App.regainSpellSlot', () => {
+  it('regains a spell slot', () => {
+    expect(makeApp().regainSpellSlot(1).gameState.spellSlots.levels[0].used).toBe(0)
+  })
+
+  it('saves to storage', () => {
+    const storage = new GameStorage()
+    const app = new App(makeState(), storage, createInitialAppState())
+    app.regainSpellSlot(1)
+    expect(storage.load().spellSlots.levels[0].used).toBe(0)
+  })
+})
+
+describe('App.adjustCurrency', () => {
+  it('adjusts currency', () => {
+    expect(makeApp().adjustCurrency('gp', 5).gameState.currency.gp).toBe(15)
+  })
+
+  it('saves to storage', () => {
+    const storage = new GameStorage()
+    const app = new App(makeState(), storage, createInitialAppState())
+    app.adjustCurrency('gp', 5)
+    expect(storage.load().currency.gp).toBe(15)
+  })
+})
+
+describe('App.setName', () => {
+  it('updates name', () => {
+    expect(makeApp().setName('Thorin').gameState.name).toBe('Thorin')
+  })
+})
+
+describe('App.setMaximumHealth', () => {
+  it('updates maximum health', () => {
+    expect(makeApp().setMaximumHealth(30).gameState.health.maximum).toBe(30)
+  })
+})
+
+describe('App.setSpellLevels', () => {
+  it('updates number of spell levels', () => {
+    expect(makeApp().setSpellLevels(3).gameState.spellSlots.levels).toHaveLength(3)
+  })
+})
+
+describe('App.setTotalSpellSlots', () => {
+  it('updates total for a level', () => {
+    expect(makeApp().setTotalSpellSlots(1, 6).gameState.spellSlots.levels[0].total).toBe(6)
+  })
+})
+
 describe('App.roll', () => {
   it('adds a result to dice history', () => {
     const app = makeApp().openDiceModal().roll(20)
