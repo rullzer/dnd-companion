@@ -72,7 +72,7 @@ export class App {
   }
 
   public setHpAmount(amount: number): App {
-    return new App(this.gameState, this.storage, setHpAmount(this.state, amount))
+    return this.update(this.gameState, setHpAmount(this.state, amount))
   }
 
   public openConfirmModal(message: string, onConfirm: () => void): App {
@@ -93,11 +93,7 @@ export class App {
 
   public roll(die: Die): App {
     const result = rollDie(die)
-    return new App(
-      this.gameState,
-      this.storage,
-      addRollToHistory({ ...this.state, isDiceModalOpen: false }, result),
-    )
+    return this.update(this.gameState, addRollToHistory({ ...this.state, isDiceModalOpen: false }, result))
   }
 
   public longRest(): App {
