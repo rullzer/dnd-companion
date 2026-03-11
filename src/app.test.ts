@@ -31,6 +31,16 @@ function makeApp() {
   return new App(game, new GameStorage(), createInitialAppState())
 }
 
+function makeUnnamedApp() {
+  const game = new Game({
+    name: '',
+    health: new Health(10, 20),
+    spellSlots: new SpellSlots([]),
+    currency: new Currency(),
+  })
+  return new App(game, new GameStorage(), createInitialAppState())
+}
+
 describe('App.openConfig', () => {
   it('sets isConfigOpen to true', () => {
     expect(makeApp().openConfig().state.isConfigOpen).toBe(true)
@@ -122,6 +132,35 @@ describe('App.confirmHpModal', () => {
   it('does nothing when no modal is open', () => {
     const app = makeApp()
     expect(app.confirmHpModal().game.state.health.current).toBe(10)
+  })
+})
+
+describe('App.needsSetup', () => {
+  it('returns true when name is empty', () => {
+    expect(makeUnnamedApp().needsSetup()).toBe(true)
+  })
+
+  it('returns false when name is set', () => {
+    expect(makeApp().needsSetup()).toBe(false)
+  })
+})
+
+describe('App.completeName', () => {
+  it('sets the name on the game', () => {
+    const app = makeUnnamedApp().completeName('Aria')
+    expect(app.game.state.name).toBe('Aria')
+  })
+
+  it('saves to storage', () => {
+    const storage = new GameStorage()
+    const game = new Game({ name: '', health: new Health(10, 20), spellSlots: new SpellSlots([]), currency: new Currency() })
+    const app = new App(game, storage, createInitialAppState())
+    app.completeName('Aria')
+    expect(storage.load().name).toBe('Aria')
+  })
+
+  it('needsSetup returns false after completeName', () => {
+    expect(makeUnnamedApp().completeName('Aria').needsSetup()).toBe(false)
   })
 })
 

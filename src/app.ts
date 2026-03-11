@@ -1,6 +1,6 @@
 import { Game } from './game'
 import { GameStorage } from './game-storage'
-import { createInitialAppState, addRollToHistory, type AppState, type ConfirmModal } from './app-state'
+import { createInitialAppState, addRollToHistory, setHpAmount, type AppState } from './app-state'
 import { rollDie, type Die } from './game/dice'
 import type { HpModal } from './render/health'
 import type { CurrencyType } from './game/currency'
@@ -22,6 +22,16 @@ export class App {
 
   private update(state: Partial<AppState>): App {
     return new App(this.game, this.storage, { ...this.state, ...state })
+  }
+
+  public needsSetup(): boolean {
+    return this.game.state.name === ''
+  }
+
+  public completeName(name: string): App {
+    this.game.setName(name)
+    this.storage.save(this.game.state)
+    return this.update({})
   }
 
   public openConfig(): App {
@@ -58,8 +68,7 @@ export class App {
   }
 
   public setHpAmount(amount: number): App {
-    if (!this.state.hpModal) return this
-    return this.update({ hpModal: { ...this.state.hpModal, amount } })
+    return new App(this.game, this.storage, setHpAmount(this.state, amount))
   }
 
   public openConfirmModal(message: string, onConfirm: () => void): App {
@@ -90,44 +99,44 @@ export class App {
   public longRest(): App {
     this.game.longRest()
     this.storage.save(this.game.state)
-    return this
+    return this.update({})
   }
 
   public cast(level: number): App {
     this.game.cast(level)
     this.storage.save(this.game.state)
-    return this
+    return this.update({})
   }
 
   public regainSpellSlot(level: number): App {
     this.game.regainSpellSlot(level)
     this.storage.save(this.game.state)
-    return this
+    return this.update({})
   }
 
   public adjustCurrency(type: CurrencyType, delta: number): App {
     this.game.adjustCurrency(type, delta)
     this.storage.save(this.game.state)
-    return this
+    return this.update({})
   }
 
   public setName(name: string): App {
     this.game.setName(name)
-    return this
+    return this.update({})
   }
 
   public setMaximumHealth(value: number): App {
     this.game.setMaximumHealth(value)
-    return this
+    return this.update({})
   }
 
   public setSpellLevels(count: number): App {
     this.game.setSpellLevels(count)
-    return this
+    return this.update({})
   }
 
   public setTotalSpellSlots(level: number, total: number): App {
     this.game.setTotalSpellSlots(level, total)
-    return this
+    return this.update({})
   }
 }

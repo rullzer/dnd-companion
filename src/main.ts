@@ -9,11 +9,25 @@ import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
 import { renderDice, renderDiceModal } from './render/dice';
 import { renderCurrency } from './render/currency';
+import { renderSetup } from './render/setup';
 
 const el = document.querySelector<HTMLDivElement>('#app')!;
 let app = App.create(new GameStorage());
+let setupName = '';
 
 function draw() {
+  if (app.needsSetup()) {
+    render(
+      renderSetup(
+        setupName,
+        (name) => { setupName = name; draw(); },
+        () => { app = app.completeName(setupName.trim()); setupName = ''; draw(); },
+      ),
+      el,
+    );
+    return;
+  }
+
   const { health, spellSlots } = app.game.state;
   const { isConfigOpen, hpModal, confirmModal, isDiceModalOpen, diceHistory } = app.state;
 
