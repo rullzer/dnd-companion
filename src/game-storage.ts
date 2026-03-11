@@ -21,34 +21,12 @@ function loadNumber(key: string, fallback: number): number {
 export class GameStorage {
   public load(): State {
     const defaults = createDefaultState()
-
-    const health = new Health(
-      loadNumber(KEYS.currentHealth, defaults.health.maximum),
-      loadNumber(KEYS.maximumHealth, defaults.health.maximum),
-      loadNumber(KEYS.temporaryHealth, defaults.health.temporary),
-    )
-
-    let spellSlots: SpellSlots
-    try {
-      const stored = localStorage.getItem(KEYS.spellSlots)
-      spellSlots = stored ? new SpellSlots(JSON.parse(stored)) : defaults.spellSlots
-    } catch (e) {
-      console.warn('Failed to parse stored spell slots, reverting to default', e)
-      spellSlots = defaults.spellSlots
+    return {
+      name: this.loadName(),
+      health: this.loadHealth(defaults),
+      spellSlots: this.loadSpellSlots(defaults),
+      currency: this.loadCurrency(),
     }
-
-    let currency: Currency
-    try {
-      const stored = localStorage.getItem(KEYS.currency)
-      currency = stored ? new Currency(JSON.parse(stored)) : new Currency()
-    } catch (e) {
-      console.warn('Failed to parse stored currency, reverting to default', e)
-      currency = new Currency()
-    }
-
-    const name = localStorage.getItem(KEYS.name) ?? ''
-
-    return { name, health, spellSlots, currency }
   }
 
   public save(state: State): void {
@@ -64,5 +42,37 @@ export class GameStorage {
       gp: state.currency.gp,
       pp: state.currency.pp,
     }))
+  }
+
+  private loadName(): string {
+    return localStorage.getItem(KEYS.name) ?? ''
+  }
+
+  private loadHealth(defaults: State): Health {
+    return new Health(
+      loadNumber(KEYS.currentHealth, defaults.health.maximum),
+      loadNumber(KEYS.maximumHealth, defaults.health.maximum),
+      loadNumber(KEYS.temporaryHealth, defaults.health.temporary),
+    )
+  }
+
+  private loadSpellSlots(defaults: State): SpellSlots {
+    try {
+      const stored = localStorage.getItem(KEYS.spellSlots)
+      return stored ? new SpellSlots(JSON.parse(stored)) : defaults.spellSlots
+    } catch (e) {
+      console.warn('Failed to parse stored spell slots, reverting to default', e)
+      return defaults.spellSlots
+    }
+  }
+
+  private loadCurrency(): Currency {
+    try {
+      const stored = localStorage.getItem(KEYS.currency)
+      return stored ? new Currency(JSON.parse(stored)) : new Currency()
+    } catch (e) {
+      console.warn('Failed to parse stored currency, reverting to default', e)
+      return new Currency()
+    }
   }
 }
