@@ -10,16 +10,15 @@ export const renderHealth = (
 ) => {
   const { current, maximum, temporary } = health;
 
-  const tempText = temporary > 0
-    ? html`<span class="hp-temp">(+${temporary} temp)</span>`
-    : '';
-
   return html`
     <div class="hp-section">
       <h2>HP</h2>
       <div class="hp-controls">
         <button class="btn-danger" @click=${() => onOpenModal('damage')}>Hit</button>
-        <span id="hp-display">${current} / ${maximum} ${tempText}</span>
+        <div class="hp-display">
+          <span>${current} / ${maximum}</span>
+          ${temporary > 0 ? html`<span class="hp-temp">+${temporary} temp</span>` : ''}
+        </div>
         <button class="btn-heal" @click=${() => onOpenModal('heal')}>Heal</button>
       </div>
       <div class="hp-temp-row">

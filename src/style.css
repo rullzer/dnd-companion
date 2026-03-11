@@ -15,9 +15,14 @@
   background: transparent;
   border: none;
   color: var(--color-icon-btn);
-  padding: 0.4em;
+  padding: 0.6em;
   line-height: 0;
   border-radius: 50%;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .config-icon-btn:hover {
   background: var(--color-icon-btn-hover-bg);
@@ -76,9 +81,22 @@ h1 {
 
 .hp-controls {
   display: flex;
-  align-items: center;     /* Vertically centers text and buttons */
-  justify-content: center; /* Horizontally centers the group */
-  gap: 1rem;               /* Adds nice spacing between elements */
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.hp-controls button {
+  flex: 1;
+}
+.hp-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
+}
+.hp-temp {
+  font-size: 0.8em;
+  opacity: 0.7;
 }
 
 
@@ -103,26 +121,42 @@ h1 {
   margin: 0 0.5em;
 }
 
-.spell-table {
+.spell-list {
   width: 100%;
-  border-collapse: collapse;
   margin-top: 1em;
 }
-.spell-table th, .spell-table td {
-  padding: 0.5em 0.7em;
+.spell-list-header,
+.spell-list-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 0;
   border-bottom: 1px solid var(--color-border);
-  text-align: center;
 }
-.spell-table th {
+.spell-list-header {
+  font-weight: bold;
   background: var(--color-table-header-bg);
+  border-radius: 6px;
+  padding: 0.5em 0.5em;
+  margin-bottom: 0.25em;
 }
-.spell-table input[type="number"] {
+.spell-col-level {
   width: 3em;
-  padding: 0.2em;
-  border-radius: 4px;
-  border: 1px solid var(--color-border);
-  background: var(--color-modal-bg);
-  color: var(--color-modal-text);
+  text-align: center;
+  flex-shrink: 0;
+}
+.spell-col-left {
+  width: 3.5em;
+  text-align: center;
+  flex-shrink: 0;
+}
+.spell-col-actions {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+}
+.depleted {
+  opacity: 0.4;
 }
 
 .config-section,
@@ -240,6 +274,10 @@ h1 {
   gap: 0.75em;
   margin-top: 0.75em;
 }
+.hp-temp-row button {
+  flex: 1;
+  white-space: nowrap;
+}
 .btn-rest {
   background: #b7770d;
 }
@@ -276,7 +314,7 @@ h1 {
   text-align: center;
 }
 .stepper button {
-  padding: 0.5em 0.8em;
+  padding: 0.6em 1em;
 }
 .config-actions {
   display: flex;
@@ -287,14 +325,15 @@ h1 {
 button {
   border-radius: 8px;
   border: none;
-  padding: 0.5em 1em;
-  font-size: 1em;
+  padding: 0.75em 1.3em;
+  font-size: 1.05em;
   font-weight: 500;
   font-family: inherit;
   background: #646cff;
   color: #fff;
   cursor: pointer;
   transition: background 0.2s;
+  min-height: 44px;
 }
 button:hover {
   background: #535bf2;
@@ -309,19 +348,12 @@ button:disabled {
 }
 
 @media (max-width: 600px) {
+  :root {
+    font-size: 18px;
+  }
+
   #app {
     padding: 1rem;
-  }
-
-  .spell-table th:nth-child(2),
-  .spell-table td:nth-child(2) {
-    display: none;
-  }
-
-  .slot-btn {
-    padding: 0.4em 0.6em;
-    font-size: 0.85em;
-    margin: 0 0.1em;
   }
 }
 
