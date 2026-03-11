@@ -23,10 +23,11 @@ describe('GameStorage.load defaults', () => {
     expect(new GameStorage().load().name).toBe('')
   })
 
-  it('defaults health to 40/40', () => {
+  it('defaults health to 40/40 with 0 temporary', () => {
     const { health } = new GameStorage().load()
     expect(health.current).toBe(40)
     expect(health.maximum).toBe(40)
+    expect(health.temporary).toBe(0)
   })
 
   it('defaults spell slots to 2 levels', () => {

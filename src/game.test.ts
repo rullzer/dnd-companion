@@ -65,6 +65,12 @@ describe('Game.longRest', () => {
     game.longRest()
     expect(game.state.spellSlots.levels[0].used).toBe(0)
   })
+
+  it('does not affect currency', () => {
+    const game = makeGame()
+    game.longRest()
+    expect(game.state.currency.gp).toBe(10)
+  })
 })
 
 describe('Game.cast', () => {
