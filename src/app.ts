@@ -117,6 +117,10 @@ export class App {
     return this.save(actions.adjustCurrency(this.gameState, type, delta))
   }
 
+  public setNotes(notes: string): App {
+    return this.save(actions.setNotes(this.gameState, notes))
+  }
+
   public setName(name: string): App {
     return this.update(actions.setName(this.gameState, name))
   }

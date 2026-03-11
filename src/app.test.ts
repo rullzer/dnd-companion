@@ -27,6 +27,7 @@ function makeState(): State {
     health: new Health(10, 20),
     spellSlots: new SpellSlots([{ total: 4, used: 1 }]),
     currency: new Currency({ gp: 10 }),
+    notes: '',
   }
 }
 
@@ -36,7 +37,7 @@ function makeApp() {
 
 function makeUnnamedApp() {
   return new App(
-    { name: '', health: new Health(10, 20), spellSlots: new SpellSlots([]), currency: new Currency() },
+    { name: '', health: new Health(10, 20), spellSlots: new SpellSlots([]), currency: new Currency(), notes: '' },
     new GameStorage(),
     createInitialAppState(),
   )
@@ -75,7 +76,7 @@ describe('App.completeSetup', () => {
   it('saves to storage', () => {
     const storage = new GameStorage()
     const app = new App(
-      { name: '', health: new Health(10, 20), spellSlots: new SpellSlots([]), currency: new Currency() },
+      { name: '', health: new Health(10, 20), spellSlots: new SpellSlots([]), currency: new Currency(), notes: '' },
       storage,
       createInitialAppState(),
     )
@@ -139,7 +140,7 @@ describe('App.openHpModal', () => {
 
   it('sets initial amount to current temporary hp for temp', () => {
     const app = new App(
-      { name: 'Aria', health: new Health(10, 20, 5), spellSlots: new SpellSlots([]), currency: new Currency() },
+      { name: 'Aria', health: new Health(10, 20, 5), spellSlots: new SpellSlots([]), currency: new Currency(), notes: '' },
       new GameStorage(),
       createInitialAppState(),
     )

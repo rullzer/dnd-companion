@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { setName, damage, heal, setMaximumHealth, setTemporaryHealth, longRest, cast, regainSpellSlot, setSpellLevels, setTotalSpellSlots, adjustCurrency } from './actions'
+import { setName, damage, heal, setMaximumHealth, setTemporaryHealth, longRest, cast, regainSpellSlot, setSpellLevels, setTotalSpellSlots, adjustCurrency, setNotes } from './actions'
 import { Health } from './health'
 import { SpellSlots } from './spellslots'
 import { Currency } from './currency'
@@ -11,6 +11,7 @@ function makeState(): State {
     health: new Health(10, 20),
     spellSlots: new SpellSlots([{ total: 4, used: 1 }, { total: 3, used: 0 }]),
     currency: new Currency({ gp: 10 }),
+    notes: '',
   }
 }
 
@@ -103,5 +104,17 @@ describe('setTotalSpellSlots', () => {
 describe('adjustCurrency', () => {
   it('adjusts currency amount', () => {
     expect(adjustCurrency(makeState(), 'gp', 5).currency.gp).toBe(15)
+  })
+})
+
+describe('setNotes', () => {
+  it('updates notes', () => {
+    expect(setNotes(makeState(), 'Session 1').notes).toBe('Session 1')
+  })
+
+  it('does not mutate original', () => {
+    const s = makeState()
+    setNotes(s, 'Session 1')
+    expect(s.notes).toBe('')
   })
 })

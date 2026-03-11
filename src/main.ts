@@ -9,6 +9,7 @@ import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
 import { renderDice, renderDiceModal } from './render/dice';
 import { renderCurrency } from './render/currency';
+import { renderNotes } from './render/notes';
 import { renderWizard } from './render/setup';
 import { createWizard, type Wizard } from './wizard';
 
@@ -50,6 +51,7 @@ function draw() {
         )}
         ${renderDice(diceHistory, () => { app = app.openDiceModal(); draw(); })}
         ${renderCurrency(currency, (type, delta) => { app = app.adjustCurrency(type, delta); draw(); })}
+        ${renderNotes(app.gameState.notes, (notes) => { app = app.setNotes(notes); draw(); })}
         ${isConfigOpen ? renderConfig(
           name,
           health,

@@ -92,6 +92,18 @@ describe('GameStorage.save and load', () => {
   })
 })
 
+describe('GameStorage notes', () => {
+  it('defaults notes to empty string', () => {
+    expect(new GameStorage().load().notes).toBe('')
+  })
+
+  it('saves and loads notes', () => {
+    const storage = new GameStorage()
+    storage.save({ ...storage.load(), notes: 'Found a dragon egg' })
+    expect(storage.load().notes).toBe('Found a dragon egg')
+  })
+})
+
 describe('GameStorage.load resilience', () => {
   it('falls back to default spell slots on corrupt data', () => {
     localStorage.setItem('spellSlots', 'not valid json{{{')

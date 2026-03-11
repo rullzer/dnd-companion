@@ -445,6 +445,38 @@ button:disabled {
   opacity: 0.5;
 }
 
+.notes-section {
+  background: var(--color-section-bg);
+  border-radius: 12px;
+  padding: 1.5em;
+  margin-bottom: 2em;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.notes-section h2 {
+  margin-top: 0;
+}
+.notes-textarea {
+  width: 100%;
+  min-height: 8em;
+  background: var(--color-modal-bg);
+  color: var(--color-modal-text);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.75em;
+  font-family: inherit;
+  font-size: 0.95em;
+  line-height: 1.5;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.notes-textarea:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
 .setup-screen {
   display: flex;
   flex-direction: column;

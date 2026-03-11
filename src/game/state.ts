@@ -7,4 +7,5 @@ export type State = {
   readonly health: Health
   readonly spellSlots: SpellSlots
   readonly currency: Currency
+  readonly notes: string
 }

@@ -44,3 +44,7 @@ export function setTotalSpellSlots(state: State, level: number, total: number): 
 export function adjustCurrency(state: State, type: CurrencyType, delta: number): State {
   return { ...state, currency: state.currency.adjust(type, delta) }
 }
+
+export function setNotes(state: State, notes: string): State {
+  return { ...state, notes }
+}

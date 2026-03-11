@@ -9,5 +9,6 @@ export function createDefaultState(): State {
     health: new Health(40, 40),
     spellSlots: new SpellSlots([{ total: 4, used: 0 }, { total: 3, used: 0 }]),
     currency: new Currency(),
+    notes: '',
   }
 }

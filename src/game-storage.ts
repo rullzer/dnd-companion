@@ -11,6 +11,7 @@ const KEYS = {
   temporaryHealth: 'temporaryHealth',
   spellSlots: 'spellSlots',
   currency: 'currency',
+  notes: 'notes',
 } as const;
 
 function loadNumber(key: string, fallback: number): number {
@@ -26,6 +27,7 @@ export class GameStorage {
       health: this.loadHealth(defaults),
       spellSlots: this.loadSpellSlots(defaults),
       currency: this.loadCurrency(),
+      notes: localStorage.getItem(KEYS.notes) ?? '',
     }
   }
 
@@ -42,6 +44,7 @@ export class GameStorage {
       gp: state.currency.gp,
       pp: state.currency.pp,
     }))
+    localStorage.setItem(KEYS.notes, state.notes)
   }
 
   private loadName(): string {
