@@ -28,13 +28,13 @@ function draw() {
     return;
   }
 
-  const { health, spellSlots } = app.game.state;
+  const { health, spellSlots, currency, name } = app.gameState;
   const { isConfigOpen, hpModal, confirmModal, isDiceModalOpen, diceHistory } = app.state;
 
   render(
     html`
       <div class="container">
-        ${renderHeader(app.game.state.name, () => { app = app.openConfig(); draw(); })}
+        ${renderHeader(name, () => { app = app.openConfig(); draw(); })}
         ${renderHealth(health, (type) => { app = app.openHpModal(type); draw(); }, () => {
           app = app.openConfirmModal('Take a long rest?', () => {
             app = app.longRest().closeConfirmModal();
@@ -48,9 +48,9 @@ function draw() {
           (lvl) => { app = app.regainSpellSlot(lvl); draw(); },
         )}
         ${renderDice(diceHistory, () => { app = app.openDiceModal(); draw(); })}
-        ${renderCurrency(app.game.state.currency, (type, delta) => { app = app.adjustCurrency(type, delta); draw(); })}
+        ${renderCurrency(currency, (type, delta) => { app = app.adjustCurrency(type, delta); draw(); })}
         ${isConfigOpen ? renderConfig(
-          app.game.state.name,
+          name,
           health,
           spellSlots,
           () => { app = app.saveConfig(); draw(); },
