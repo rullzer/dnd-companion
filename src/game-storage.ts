@@ -1,7 +1,8 @@
-import { SpellSlots, type SpellLevel } from './game/spellslots';
+import { SpellSlots } from './game/spellslots';
 import { Health } from './game/health';
 import { Currency } from './game/currency';
 import type { State } from './game/state';
+import { createDefaultState } from './game/defaults';
 
 const KEYS = {
   name: 'name',
@@ -12,10 +13,6 @@ const KEYS = {
   currency: 'currency',
 } as const;
 
-const DEFAULT_SLOTS: SpellLevel[] = [
-  { total: 4, used: 0 }, { total: 3, used: 0 },
-];
-
 function loadNumber(key: string, fallback: number): number {
   const stored = localStorage.getItem(key)
   return stored !== null ? Number(stored) : fallback
@@ -23,19 +20,21 @@ function loadNumber(key: string, fallback: number): number {
 
 export class GameStorage {
   public load(): State {
+    const defaults = createDefaultState()
+
     const health = new Health(
-      loadNumber(KEYS.currentHealth, 40),
-      loadNumber(KEYS.maximumHealth, 40),
-      loadNumber(KEYS.temporaryHealth, 0),
+      loadNumber(KEYS.currentHealth, defaults.health.maximum),
+      loadNumber(KEYS.maximumHealth, defaults.health.maximum),
+      loadNumber(KEYS.temporaryHealth, defaults.health.temporary),
     )
 
     let spellSlots: SpellSlots
     try {
       const stored = localStorage.getItem(KEYS.spellSlots)
-      spellSlots = stored ? new SpellSlots(JSON.parse(stored)) : new SpellSlots(DEFAULT_SLOTS)
+      spellSlots = stored ? new SpellSlots(JSON.parse(stored)) : defaults.spellSlots
     } catch (e) {
       console.warn('Failed to parse stored spell slots, reverting to default', e)
-      spellSlots = new SpellSlots(DEFAULT_SLOTS)
+      spellSlots = defaults.spellSlots
     }
 
     let currency: Currency
