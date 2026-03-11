@@ -10,6 +10,7 @@ import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
 import { renderDice, renderDiceModal } from './render/dice';
 import { rollDie, type Die, type DiceResult } from './game/dice';
+import { addToHistory } from './game/dice-history';
 import { renderCurrency } from './render/currency';
 import type { CurrencyType } from './game/currency';
 
@@ -74,7 +75,7 @@ function confirmHpModal() {
 
 function handleRollDie(die: Die) {
   const result = rollDie(die, 0);
-  diceHistory = [result, ...diceHistory].slice(0, 5);
+  diceHistory = addToHistory(diceHistory, result);
   isDiceModalOpen = false;
   draw();
 }
