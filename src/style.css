@@ -281,6 +281,77 @@ h1 {
   opacity: 0.7;
   font-size: 0.95em;
 }
+.dice-history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  margin-bottom: 1em;
+  min-height: 2em;
+}
+.dice-history-empty {
+  opacity: 0.4;
+  font-size: 0.9em;
+}
+.dice-history-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3em 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.dice-history-row:last-child {
+  border-bottom: none;
+}
+.dice-history-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.dice-history-die {
+  opacity: 0.5;
+  font-size: 0.9em;
+  min-width: 2.5em;
+}
+.dice-history-row.latest .dice-history-die {
+  opacity: 1;
+  font-weight: bold;
+}
+.dice-history-badge {
+  font-size: 0.7em;
+  background: #7d3c98;
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+.dice-history-total {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.dice-history-row.latest .dice-history-total {
+  font-size: 1.6em;
+  color: #a855f7;
+}
+.dice-roll-btn {
+  width: 100%;
+  background: #7d3c98;
+}
+.dice-roll-btn:hover {
+  background: #6c3483;
+}
+.dice-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-modal-bg);
+  color: var(--color-modal-text);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  padding: 2em;
+  width: 90vw;
+  max-width: 420px;
+  z-index: 1000;
+}
 .dice-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -290,33 +361,10 @@ h1 {
 }
 .die-btn {
   background: #7d3c98;
-  min-width: 3em;
+  min-width: 3.5em;
 }
 .die-btn:hover {
   background: #6c3483;
-}
-.dice-modifier {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
-  margin-bottom: 1em;
-}
-.dice-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 0.5em;
-  gap: 0.25em;
-}
-.dice-result-total {
-  font-size: 3em;
-  font-weight: bold;
-  line-height: 1;
-}
-.dice-result-breakdown {
-  font-size: 0.9em;
-  opacity: 0.6;
 }
 .hp-temp-row {
   display: flex;
