@@ -51,7 +51,12 @@ export class Game {
     this._state = { ...this._state, currency: this._state.currency.adjust(type, delta) }
   }
 
+  public setName(name: string): void {
+    this._state = { ...this._state, name }
+  }
+
   public save(): void {
+    localStorage.setItem('name', this.state.name)
     localStorage.setItem('currentHealth', this.state.health.current.toString())
     localStorage.setItem('maximumHealth', this.state.health.maximum.toString())
     localStorage.setItem('temporaryHealth', this.state.health.temporary.toString())
@@ -116,7 +121,10 @@ export class Game {
       currency = new Currency()
     }
 
+    const name = localStorage.getItem('name') ?? ''
+
     return new Game({
+      name,
       health,
       spellSlots,
       currency,

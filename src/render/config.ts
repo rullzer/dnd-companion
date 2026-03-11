@@ -3,10 +3,12 @@ import type { Health } from '../game/health';
 import type { SpellSlots } from '../game/spellslots';
 
 export const renderConfig = (
+  name: string,
   health: Health,
   spellSlots: SpellSlots,
   onSave: () => void,
   onCancel: () => void,
+  onSetName: (value: string) => void,
   onSetMaxHealth: (value: number) => void,
   onSetSpellLevels: (count: number) => void,
   onSetTotalSpellSlots: (level: number, total: number) => void,
@@ -14,6 +16,16 @@ export const renderConfig = (
   <div class="config-section">
     <div class="config-content">
       <h3>Configure Character</h3>
+
+      <div class="config-row">
+        <label>Name:</label>
+        <input
+          type="text"
+          .value=${name}
+          @input=${(e: Event) => onSetName((e.target as HTMLInputElement).value)}
+          placeholder="Character name"
+        />
+      </div>
 
       <div class="config-row">
         <label>Max HP:</label>

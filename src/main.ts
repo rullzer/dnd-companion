@@ -99,7 +99,7 @@ function draw() {
   render(
     html`
       <div class="container">
-        ${renderHeader(openConfig)}
+        ${renderHeader(game.state.name, openConfig)}
         ${renderHealth(health, openHpModal, () => openConfirmModal(
           'Take a long rest?',
           () => updateAndRender(() => { game.longRest(); confirmModal = null; }),
@@ -112,10 +112,12 @@ function draw() {
         ${renderDice(diceModifier, diceResult, handleRollDie, setDiceModifier)}
         ${renderCurrency(game.state.currency, adjustCurrency)}
         ${isConfigOpen ? renderConfig(
+          game.state.name,
           health,
           spellSlots,
           saveConfig,
           cancelConfig,
+          (v) => updateConfigAndRender(() => game.setName(v)),
           (v) => updateConfigAndRender(() => game.setMaximumHealth(v)),
           (v) => updateConfigAndRender(() => game.setSpellLevels(v)),
           (lvl, total) => updateConfigAndRender(() => game.setTotalSpellSlots(lvl, total)),
