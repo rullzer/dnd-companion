@@ -5,11 +5,10 @@ export type Die = typeof DICE[number];
 export type DiceResult = {
   die: Die;
   roll: number;
-  modifier: number;
   total: number;
 };
 
-export function rollDie(die: Die, modifier: number): DiceResult {
+export function rollDie(die: Die): DiceResult {
   const roll = Math.floor(Math.random() * die) + 1;
-  return { die, roll, modifier, total: roll + modifier };
+  return { die, roll, total: roll };
 }

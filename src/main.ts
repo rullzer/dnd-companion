@@ -74,7 +74,7 @@ function confirmHpModal() {
 }
 
 function handleRollDie(die: Die) {
-  const result = rollDie(die, 0);
+  const result = rollDie(die);
   diceHistory = addToHistory(diceHistory, result);
   isDiceModalOpen = false;
   draw();

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { addToHistory } from './dice-history'
 import type { DiceResult } from './dice'
 
-const roll = (die: DiceResult['die'], total: number): DiceResult => ({ die, roll: total, modifier: 0, total })
+const roll = (die: DiceResult['die'], total: number): DiceResult => ({ die, roll: total, total })
 
 describe('addToHistory', () => {
   it('adds a result to an empty history', () => {
