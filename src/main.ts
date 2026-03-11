@@ -1,6 +1,7 @@
 import './style.css';
 import { html, render } from 'lit-html';
 import { Game } from './game';
+import { GameStorage } from './game-storage';
 import type { State } from './game/state';
 import { renderHeader } from './render/header';
 import { renderHealth, renderHpModal, type HpModal } from './render/health';
@@ -13,7 +14,8 @@ import { renderCurrency } from './render/currency';
 import type { CurrencyType } from './game/currency';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
-const game = Game.createInitial();
+const storage = new GameStorage();
+const game = new Game(storage.load());
 
 let isConfigOpen = false;
 let configSnapshot: State | null = null;
@@ -24,7 +26,7 @@ let diceResult: DiceResult | null = null;
 
 function updateAndRender(action: () => void) {
   action();
-  game.save();
+  storage.save(game.state);
   draw();
 }
 
@@ -40,7 +42,7 @@ function openConfig() {
 }
 
 function saveConfig() {
-  game.save();
+  storage.save(game.state);
   configSnapshot = null;
   isConfigOpen = false;
   draw();
@@ -65,7 +67,7 @@ function confirmHpModal() {
   if (type === 'damage') game.damage(amount);
   else if (type === 'heal') game.heal(amount);
   else game.setTemporaryHealth(amount);
-  game.save();
+  storage.save(game.state);
   hpModal = null;
   draw();
 }
