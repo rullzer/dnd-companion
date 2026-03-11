@@ -57,6 +57,21 @@ describe('GameStorage.save and load', () => {
     expect(loaded.health.temporary).toBe(5)
   })
 
+  it('persists and restores temporary hp of 0', () => {
+    const storage = new GameStorage()
+    const state = storage.load()
+    storage.save({ ...state, health: new Health(10, 20, 0) })
+    expect(new GameStorage().load().health.temporary).toBe(0)
+  })
+
+  it('persists and restores temporary hp after being set then cleared', () => {
+    const storage = new GameStorage()
+    const state = storage.load()
+    storage.save({ ...state, health: new Health(10, 20, 8) })
+    storage.save({ ...state, health: new Health(10, 20, 0) })
+    expect(new GameStorage().load().health.temporary).toBe(0)
+  })
+
   it('persists and restores spell slots', () => {
     const storage = new GameStorage()
     const state = storage.load()

@@ -114,11 +114,36 @@ describe('Game.adjustCurrency', () => {
 })
 
 describe('Game.snapshot / restore', () => {
-  it('restores a previous state', () => {
+  it('restores health', () => {
     const game = makeGame()
     const snap = game.snapshot()
     game.damage(10)
     game.restore(snap)
     expect(game.state.health.current).toBe(10)
+  })
+
+  it('restores name', () => {
+    const game = makeGame()
+    const snap = game.snapshot()
+    game.setName('Changed')
+    game.restore(snap)
+    expect(game.state.name).toBe('Aria')
+  })
+
+  it('restores currency', () => {
+    const game = makeGame()
+    const snap = game.snapshot()
+    game.adjustCurrency('gp', 50)
+    game.restore(snap)
+    expect(game.state.currency.gp).toBe(10)
+  })
+
+  it('restores spell slots', () => {
+    const game = makeGame()
+    const snap = game.snapshot()
+    game.cast(1)
+    game.cast(1)
+    game.restore(snap)
+    expect(game.state.spellSlots.levels[0].used).toBe(1)
   })
 })
