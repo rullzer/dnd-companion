@@ -2,28 +2,22 @@ import './style.css';
 import { html, render } from 'lit-html';
 import { Game } from './game';
 import { GameStorage } from './game-storage';
-import type { State } from './game/state';
+import { createInitialAppState, setHpAmount, addRollToHistory, type AppState } from './app-state';
 import { renderHeader } from './render/header';
 import { renderHealth, renderHpModal, type HpModal } from './render/health';
 import { renderSpellSlots } from './render/spellslots';
 import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
 import { renderDice, renderDiceModal } from './render/dice';
-import { rollDie, type Die, type DiceResult } from './game/dice';
-import { addToHistory } from './game/dice-history';
+import { rollDie, type Die } from './game/dice';
 import { renderCurrency } from './render/currency';
 import type { CurrencyType } from './game/currency';
 
-const app = document.querySelector<HTMLDivElement>('#app')!;
 const storage = new GameStorage();
 const game = new Game(storage.load());
+const app_el = document.querySelector<HTMLDivElement>('#app')!;
 
-let isConfigOpen = false;
-let configSnapshot: State | null = null;
-let hpModal: HpModal | null = null;
-let confirmModal: { message: string; onConfirm: () => void } | null = null;
-let isDiceModalOpen = false;
-let diceHistory: DiceResult[] = [];
+let app: AppState = createInitialAppState();
 
 function updateAndRender(action: () => void) {
   action();
@@ -37,60 +31,51 @@ function updateConfigAndRender(action: () => void) {
 }
 
 function openConfig() {
-  configSnapshot = game.snapshot();
-  isConfigOpen = true;
+  app = { ...app, isConfigOpen: true, configSnapshot: game.snapshot() };
   draw();
 }
 
 function saveConfig() {
   storage.save(game.state);
-  configSnapshot = null;
-  isConfigOpen = false;
+  app = { ...app, isConfigOpen: false, configSnapshot: null };
   draw();
 }
 
 function cancelConfig() {
-  if (configSnapshot) game.restore(configSnapshot);
-  configSnapshot = null;
-  isConfigOpen = false;
+  if (app.configSnapshot) game.restore(app.configSnapshot);
+  app = { ...app, isConfigOpen: false, configSnapshot: null };
   draw();
 }
 
 function openHpModal(type: HpModal['type']) {
   const amount = type === 'temp' ? game.state.health.temporary : 1;
-  hpModal = { type, amount };
+  app = { ...app, hpModal: { type, amount } };
   draw();
 }
 
 function confirmHpModal() {
-  if (!hpModal) return;
-  const { type, amount } = hpModal;
+  if (!app.hpModal) return;
+  const { type, amount } = app.hpModal;
   if (type === 'damage') game.damage(amount);
   else if (type === 'heal') game.heal(amount);
   else game.setTemporaryHealth(amount);
   storage.save(game.state);
-  hpModal = null;
+  app = { ...app, hpModal: null };
   draw();
 }
 
 function handleRollDie(die: Die) {
-  const result = rollDie(die);
-  diceHistory = addToHistory(diceHistory, result);
-  isDiceModalOpen = false;
+  app = addRollToHistory({ ...app, isDiceModalOpen: false }, rollDie(die));
   draw();
 }
 
 function openConfirmModal(message: string, onConfirm: () => void) {
-  confirmModal = { message, onConfirm };
+  app = { ...app, confirmModal: { message, onConfirm } };
   draw();
 }
 
 function adjustCurrency(type: CurrencyType, delta: number) {
   updateAndRender(() => game.adjustCurrency(type, delta));
-}
-
-function setHpAmount(amount: number) {
-  if (hpModal) { hpModal = { ...hpModal, amount }; draw(); }
 }
 
 function draw() {
@@ -102,16 +87,16 @@ function draw() {
         ${renderHeader(game.state.name, openConfig)}
         ${renderHealth(health, openHpModal, () => openConfirmModal(
           'Take a long rest?',
-          () => updateAndRender(() => { game.longRest(); confirmModal = null; }),
+          () => updateAndRender(() => { game.longRest(); app = { ...app, confirmModal: null }; }),
         ))}
         ${renderSpellSlots(
           spellSlots.levels,
           (lvl) => updateAndRender(() => game.cast(lvl)),
           (lvl) => updateAndRender(() => game.regainSpellSlot(lvl)),
         )}
-        ${renderDice(diceHistory, () => { isDiceModalOpen = true; draw(); })}
+        ${renderDice(app.diceHistory, () => { app = { ...app, isDiceModalOpen: true }; draw(); })}
         ${renderCurrency(game.state.currency, adjustCurrency)}
-        ${isConfigOpen ? renderConfig(
+        ${app.isConfigOpen ? renderConfig(
           game.state.name,
           health,
           spellSlots,
@@ -122,29 +107,25 @@ function draw() {
           (v) => updateConfigAndRender(() => game.setSpellLevels(v)),
           (lvl, total) => updateConfigAndRender(() => game.setTotalSpellSlots(lvl, total)),
         ) : ''}
-        ${confirmModal ? renderConfirmModal(
-          confirmModal.message,
-          confirmModal.onConfirm,
-          () => { confirmModal = null; draw(); },
+        ${app.confirmModal ? renderConfirmModal(
+          app.confirmModal.message,
+          app.confirmModal.onConfirm,
+          () => { app = { ...app, confirmModal: null }; draw(); },
         ) : ''}
-        ${hpModal ? renderHpModal(
-          hpModal,
+        ${app.hpModal ? renderHpModal(
+          app.hpModal,
           confirmHpModal,
-          () => { hpModal = null; draw(); },
-          setHpAmount,
+          () => { app = { ...app, hpModal: null }; draw(); },
+          (amount) => { app = setHpAmount(app, amount); draw(); },
         ) : ''}
-        ${isDiceModalOpen ? renderDiceModal(
+        ${app.isDiceModalOpen ? renderDiceModal(
           handleRollDie,
-          () => { isDiceModalOpen = false; draw(); },
+          () => { app = { ...app, isDiceModalOpen: false }; draw(); },
         ) : ''}
       </div>
     `,
-    app
+    app_el
   );
 }
 
-function init() {
-  draw();
-}
-
-init();
+draw();
