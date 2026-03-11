@@ -9,19 +9,20 @@ import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
 import { renderDice, renderDiceModal } from './render/dice';
 import { renderCurrency } from './render/currency';
-import { renderSetup } from './render/setup';
+import { renderWizard } from './render/setup';
+import { createWizard, type Wizard } from './wizard';
 
 const el = document.querySelector<HTMLDivElement>('#app')!;
 let app = App.create(new GameStorage());
-let setupName = '';
+let wizard: Wizard = createWizard();
 
 function draw() {
   if (app.needsSetup()) {
     render(
-      renderSetup(
-        setupName,
-        (name) => { setupName = name; draw(); },
-        () => { app = app.completeName(setupName.trim()); setupName = ''; draw(); },
+      renderWizard(
+        wizard,
+        (w) => { wizard = w; draw(); },
+        () => { app = app.completeSetup(wizard.name.trim(), wizard.maxHp, wizard.spellSlotTotals); wizard = createWizard(); draw(); },
       ),
       el,
     );

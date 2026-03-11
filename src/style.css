@@ -479,6 +479,13 @@ button:disabled {
 .setup-name-input:focus {
   border-color: #646cff;
 }
+.setup-stepper {
+  justify-content: center;
+  font-size: 1.5em;
+}
+.setup-stepper span {
+  min-width: 3em;
+}
 
 @media (max-width: 600px) {
   :root {

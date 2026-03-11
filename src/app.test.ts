@@ -52,9 +52,24 @@ describe('App.needsSetup', () => {
   })
 })
 
-describe('App.completeName', () => {
-  it('sets the name on the game state', () => {
-    expect(makeUnnamedApp().completeName('Aria').gameState.name).toBe('Aria')
+describe('App.completeSetup', () => {
+  it('sets the name', () => {
+    expect(makeUnnamedApp().completeSetup('Aria', 20, []).gameState.name).toBe('Aria')
+  })
+
+  it('sets maximum health', () => {
+    expect(makeUnnamedApp().completeSetup('Aria', 20, []).gameState.health.maximum).toBe(20)
+  })
+
+  it('sets current health to maximum', () => {
+    expect(makeUnnamedApp().completeSetup('Aria', 20, []).gameState.health.current).toBe(20)
+  })
+
+  it('sets spell slots from totals', () => {
+    const app = makeUnnamedApp().completeSetup('Aria', 20, [4, 3])
+    expect(app.gameState.spellSlots.levels).toHaveLength(2)
+    expect(app.gameState.spellSlots.levels[0].total).toBe(4)
+    expect(app.gameState.spellSlots.levels[0].used).toBe(0)
   })
 
   it('saves to storage', () => {
@@ -64,12 +79,12 @@ describe('App.completeName', () => {
       storage,
       createInitialAppState(),
     )
-    app.completeName('Aria')
+    app.completeSetup('Aria', 30, [])
     expect(storage.load().name).toBe('Aria')
   })
 
-  it('needsSetup returns false after completeName', () => {
-    expect(makeUnnamedApp().completeName('Aria').needsSetup()).toBe(false)
+  it('needsSetup returns false after completeSetup', () => {
+    expect(makeUnnamedApp().completeSetup('Aria', 20, []).needsSetup()).toBe(false)
   })
 })
 

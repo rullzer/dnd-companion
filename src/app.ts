@@ -4,6 +4,7 @@ import { createInitialAppState, addRollToHistory, setHpAmount, type AppState } f
 import { rollDie, type Die } from './game/dice'
 import type { HpModal } from './render/health'
 import type { CurrencyType } from './game/currency'
+import { SpellSlots } from './game/spellslots'
 import * as actions from './game/actions'
 
 export class App {
@@ -35,8 +36,12 @@ export class App {
     return this.gameState.name === ''
   }
 
-  public completeName(name: string): App {
-    return this.save(actions.setName(this.gameState, name))
+  public completeSetup(name: string, maxHp: number, spellSlotTotals: number[]): App {
+    let gameState = actions.setName(this.gameState, name)
+    gameState = actions.setMaximumHealth(gameState, maxHp)
+    gameState = { ...gameState, health: gameState.health.restore() }
+    gameState = { ...gameState, spellSlots: new SpellSlots(spellSlotTotals.map(total => ({ total, used: 0 }))) }
+    return this.save(gameState)
   }
 
   public openConfig(): App {
