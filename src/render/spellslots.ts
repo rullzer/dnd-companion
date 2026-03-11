@@ -12,22 +12,24 @@ export const renderSpellSlots = (
     <div class="spell-section">
       <h2>Spell Slots</h2>
       <div class="spell-list">
-        <div class="spell-list-header">
-          <span class="spell-col-level">Lvl</span>
-          <span class="spell-col-left">Left</span>
-          <span class="spell-col-actions">Cast / Regain</span>
-        </div>
         ${levels.map((level, index) => {
           const lvl = index + 1;
           const isDepleted = level.used >= level.total;
           const isFull = level.used <= 0;
           const remaining = level.total - level.used;
+          const dots = Array.from({ length: level.total }, (_, i) => i < remaining);
 
           return html`
             <div class="spell-list-row">
-              <span class="spell-col-level">${lvl}</span>
-              <span class="spell-col-left ${isDepleted ? 'depleted' : ''}">${remaining}</span>
-              <div class="spell-col-actions">
+              <div class="spell-row-info">
+                <span class="spell-level-badge">${lvl}</span>
+                <div class="spell-dots">
+                  ${dots.map(available => html`
+                    <span class="spell-dot ${available ? 'available' : 'used'}"></span>
+                  `)}
+                </div>
+              </div>
+              <div class="spell-row-actions">
                 <button class="slot-btn"
                   ?disabled=${isFull}
                   @click=${() => onRegain(lvl)}>
