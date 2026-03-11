@@ -14,14 +14,14 @@
   right: 0;
   background: transparent;
   border: none;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-icon-btn);
   padding: 0.4em;
   line-height: 0;
   border-radius: 50%;
 }
 .config-icon-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+  background: var(--color-icon-btn-hover-bg);
+  color: var(--color-icon-btn-hover);
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -36,6 +36,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-section-bg: #333;
+  --color-modal-bg: #222;
+  --color-modal-text: #fff;
+  --color-border: #444;
+  --color-table-header-bg: #222;
+  --color-icon-btn: rgba(255,255,255,0.6);
+  --color-icon-btn-hover-bg: rgba(255,255,255,0.1);
+  --color-icon-btn-hover: #fff;
 }
 
 a {
@@ -74,7 +83,7 @@ h1 {
 
 
 .hp-section, .spell-section, .dice-section, .currency-section {
-  background: #333;
+  background: var(--color-section-bg);
   border-radius: 12px;
   padding: 1.5em;
   margin-bottom: 2em;
@@ -101,19 +110,19 @@ h1 {
 }
 .spell-table th, .spell-table td {
   padding: 0.5em 0.7em;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
 .spell-table th {
-  background: #222;
+  background: var(--color-table-header-bg);
 }
 .spell-table input[type="number"] {
   width: 3em;
   padding: 0.2em;
   border-radius: 4px;
-  border: 1px solid #555;
-  background: #222;
-  color: #fff;
+  border: 1px solid var(--color-border);
+  background: var(--color-modal-bg);
+  color: var(--color-modal-text);
 }
 
 .config-section,
@@ -122,8 +131,8 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #222;
-  color: #fff;
+  background: var(--color-modal-bg);
+  color: var(--color-modal-text);
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   padding: 2em;
@@ -182,7 +191,7 @@ h1 {
   text-align: center;
 }
 .currency-total {
-  border-top: 1px solid #444;
+  border-top: 1px solid var(--color-border);
   padding-top: 0.75em;
   text-align: right;
   opacity: 0.7;
@@ -320,6 +329,15 @@ button:disabled {
   :root {
     color: #213547;
     background-color: #ffffff;
+
+    --color-section-bg: #f0f0f0;
+    --color-modal-bg: #f8f8f8;
+    --color-modal-text: #213547;
+    --color-border: #ddd;
+    --color-table-header-bg: #e4e4e4;
+    --color-icon-btn: rgba(0,0,0,0.4);
+    --color-icon-btn-hover-bg: rgba(0,0,0,0.08);
+    --color-icon-btn-hover: #000;
   }
   a:hover {
     color: #747bff;
