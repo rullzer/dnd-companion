@@ -2,12 +2,12 @@ export const CURRENCIES = ['cp', 'sp', 'ep', 'gp', 'pp'] as const;
 
 export type CurrencyType = typeof CURRENCIES[number];
 
-export const CURRENCY_LABELS: Record<CurrencyType, string> = {
-  cp: 'Copper (CP)',
-  sp: 'Silver (SP)',
-  ep: 'Electrum (EP)',
-  gp: 'Gold (GP)',
-  pp: 'Platinum (PP)',
+export const CURRENCY_NAMES: Record<CurrencyType, string> = {
+  cp: 'Copper',
+  sp: 'Silver',
+  ep: 'Electrum',
+  gp: 'Gold',
+  pp: 'Platinum',
 };
 
 type CurrencyAmounts = Record<CurrencyType, number>;

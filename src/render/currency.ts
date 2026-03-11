@@ -1,13 +1,5 @@
 import { html } from 'lit-html';
-import { CURRENCIES, type Currency, type CurrencyType } from '../game/currency';
-
-const CURRENCY_NAMES: Record<CurrencyType, string> = {
-  cp: 'Copper',
-  sp: 'Silver',
-  ep: 'Electrum',
-  gp: 'Gold',
-  pp: 'Platinum',
-};
+import { CURRENCIES, CURRENCY_NAMES, type Currency, type CurrencyType } from '../game/currency';
 
 const CURRENCY_COLORS: Record<CurrencyType, string> = {
   cp: '#b87333',
