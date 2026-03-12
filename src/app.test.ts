@@ -262,7 +262,7 @@ describe('App.roll', () => {
     expect(app.state.diceHistory[0].die).toBe(20)
   })
 
-  it('closes the dice modal', () => {
-    expect(makeApp().openDiceModal().roll(6).state.isDiceModalOpen).toBe(false)
+  it('keeps the dice modal open', () => {
+    expect(makeApp().openDiceModal().roll(6).state.isDiceModalOpen).toBe(true)
   })
 })

@@ -9,9 +9,9 @@
   justify-content: center;
   margin-bottom: 1.5em;
 }
-.config-icon-btn {
+.config-icon-btn,
+.dice-icon-btn {
   position: absolute;
-  right: 0;
   background: transparent;
   border: none;
   color: var(--color-icon-btn);
@@ -24,7 +24,10 @@
   align-items: center;
   justify-content: center;
 }
-.config-icon-btn:hover {
+.config-icon-btn { right: 0; }
+.dice-icon-btn { left: 0; }
+.config-icon-btn:hover,
+.dice-icon-btn:hover {
   background: var(--color-icon-btn-hover-bg);
   color: var(--color-icon-btn-hover);
 }
@@ -100,7 +103,7 @@ h1 {
 }
 
 
-.hp-section, .spell-section, .dice-section, .currency-section {
+.hp-section, .spell-section, .currency-section {
   background: var(--color-section-bg);
   border-radius: 12px;
   padding: 1.5em;
@@ -113,11 +116,11 @@ h1 {
   display: block;
 }
 
-.hp-section h2, .spell-section h2, .dice-section h2, .currency-section h2 {
+.hp-section h2, .spell-section h2, .currency-section h2 {
   margin-top: 0;
 }
 
-.hp-section button, .spell-section button, .dice-section button, .currency-section button {
+.hp-section button, .spell-section button, .currency-section button {
   margin: 0 0.5em;
 }
 
@@ -330,13 +333,6 @@ h1 {
 .dice-history-row.latest .dice-history-total {
   font-size: 1.6em;
   color: #a855f7;
-}
-.dice-roll-btn {
-  width: 100%;
-  background: #7d3c98;
-}
-.dice-roll-btn:hover {
-  background: #6c3483;
 }
 .dice-modal {
   position: fixed;

@@ -98,7 +98,7 @@ export class App {
 
   public roll(die: Die): App {
     const result = rollDie(die)
-    return this.update(this.gameState, addRollToHistory({ ...this.state, isDiceModalOpen: false }, result))
+    return this.update(this.gameState, addRollToHistory(this.state, result))
   }
 
   public longRest(): App {

@@ -1,7 +1,12 @@
 import { html } from 'lit-html';
 
-export const renderHeader = (name: string, onConfig: () => void) => html`
+export const renderHeader = (name: string, onConfig: () => void, onDice: () => void) => html`
   <div class="header">
+    <button class="dice-icon-btn" @click=${onDice} aria-label="Dice roller">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+        <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm2.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-9 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-4.5-4.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+      </svg>
+    </button>
     <h1>${name || 'DND Companion'}</h1>
     <button class="config-icon-btn" @click=${onConfig} aria-label="Configure">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">

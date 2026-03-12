@@ -7,7 +7,7 @@ import { renderHealth, renderHpModal } from './render/health';
 import { renderSpellSlots } from './render/spellslots';
 import { renderConfig } from './render/config';
 import { renderConfirmModal } from './render/confirm';
-import { renderDice, renderDiceModal } from './render/dice';
+import { renderDiceModal } from './render/dice';
 import { renderCurrency } from './render/currency';
 import { renderNotes } from './render/notes';
 import { renderWizard } from './render/setup';
@@ -36,7 +36,7 @@ function draw() {
   render(
     html`
       <div class="container">
-        ${renderHeader(name, () => { app = app.openConfig(); draw(); })}
+        ${renderHeader(name, () => { app = app.openConfig(); draw(); }, () => { app = app.openDiceModal(); draw(); })}
         ${renderHealth(health, (type) => { app = app.openHpModal(type); draw(); }, () => {
           app = app.openConfirmModal('Take a long rest?', () => {
             app = app.longRest().closeConfirmModal();
@@ -49,7 +49,6 @@ function draw() {
           (lvl) => { app = app.cast(lvl); draw(); },
           (lvl) => { app = app.regainSpellSlot(lvl); draw(); },
         )}
-        ${renderDice(diceHistory, () => { app = app.openDiceModal(); draw(); })}
         ${renderCurrency(currency, (type, delta) => { app = app.adjustCurrency(type, delta); draw(); })}
         ${renderNotes(app.gameState.notes, (notes) => { app = app.setNotes(notes); draw(); })}
         ${isConfigOpen ? renderConfig(
@@ -75,6 +74,7 @@ function draw() {
           (amount) => { app = app.setHpAmount(amount); draw(); },
         ) : ''}
         ${isDiceModalOpen ? renderDiceModal(
+          diceHistory,
           (die) => { app = app.roll(die); draw(); },
           () => { app = app.closeDiceModal(); draw(); },
         ) : ''}
