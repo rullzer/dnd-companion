@@ -273,9 +273,21 @@ h1 {
   padding: 0;
   border-radius: 0;
 }
-.currency-amount {
-  min-width: 2.5em;
+.currency-input {
+  min-width: 3em;
+  width: 3em;
   text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  color: inherit;
+  font: inherit;
+  font-size: 1em;
+  padding: 0.1em 0;
+}
+.currency-input:focus {
+  outline: none;
+  border-bottom-color: #646cff;
 }
 .currency-total {
   border-top: 1px solid var(--color-border);
@@ -406,6 +418,22 @@ h1 {
 .stepper span {
   min-width: 2em;
   text-align: center;
+}
+.stepper-input {
+  min-width: 3em;
+  width: 3em;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  color: inherit;
+  font: inherit;
+  font-size: 1em;
+  padding: 0.1em 0;
+}
+.stepper-input:focus {
+  outline: none;
+  border-bottom-color: #646cff;
 }
 .stepper button {
   padding: 0.6em 1em;

@@ -31,6 +31,10 @@ export class Currency {
     return new Currency({ ...this, [type]: this[type] + delta });
   }
 
+  public set(type: CurrencyType, value: number): Currency {
+    return new Currency({ ...this, [type]: value });
+  }
+
   public totalInCp(): number {
     return this.pp * 1000 + this.gp * 100 + this.ep * 50 + this.sp * 10 + this.cp;
   }

@@ -33,7 +33,16 @@ export const renderConfig = (
           <button
             ?disabled=${health.maximum <= 1}
             @click=${() => onSetMaxHealth(health.maximum - 1)}>-</button>
-          <span>${health.maximum}</span>
+          <input
+            class="stepper-input"
+            type="number"
+            .value=${String(health.maximum)}
+            min="1"
+            @change=${(e: Event) => {
+              const v = parseInt((e.target as HTMLInputElement).value);
+              if (!isNaN(v)) onSetMaxHealth(Math.max(1, v));
+            }}
+          />
           <button
             @click=${() => onSetMaxHealth(health.maximum + 1)}>+</button>
         </div>
@@ -45,7 +54,17 @@ export const renderConfig = (
           <button
             ?disabled=${spellSlots.levels.length <= 0}
             @click=${() => onSetSpellLevels(spellSlots.levels.length - 1)}>-</button>
-          <span>${spellSlots.levels.length}</span>
+          <input
+            class="stepper-input"
+            type="number"
+            .value=${String(spellSlots.levels.length)}
+            min="0"
+            max="9"
+            @change=${(e: Event) => {
+              const v = parseInt((e.target as HTMLInputElement).value);
+              if (!isNaN(v)) onSetSpellLevels(Math.min(9, Math.max(0, v)));
+            }}
+          />
           <button
             ?disabled=${spellSlots.levels.length >= 9}
             @click=${() => onSetSpellLevels(spellSlots.levels.length + 1)}>+</button>
@@ -62,7 +81,16 @@ export const renderConfig = (
                 <button
                   ?disabled=${level.total <= 0}
                   @click=${() => onSetTotalSpellSlots(i + 1, level.total - 1)}>-</button>
-                <span>${level.total}</span>
+                <input
+                  class="stepper-input"
+                  type="number"
+                  .value=${String(level.total)}
+                  min="0"
+                  @change=${(e: Event) => {
+                    const v = parseInt((e.target as HTMLInputElement).value);
+                    if (!isNaN(v)) onSetTotalSpellSlots(i + 1, Math.max(0, v));
+                  }}
+                />
                 <button
                   @click=${() => onSetTotalSpellSlots(i + 1, level.total + 1)}>+</button>
               </div>

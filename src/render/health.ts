@@ -47,7 +47,16 @@ export const renderHpModal = (
           <button
             ?disabled=${amount <= minAmount}
             @click=${() => onSetAmount(amount - 1)}>-</button>
-          <span>${amount}</span>
+          <input
+            class="stepper-input"
+            type="number"
+            .value=${String(amount)}
+            min=${minAmount}
+            @change=${(e: Event) => {
+              const v = parseInt((e.target as HTMLInputElement).value);
+              if (!isNaN(v)) onSetAmount(Math.max(minAmount, v));
+            }}
+          />
           <button
             @click=${() => onSetAmount(amount + 1)}>+</button>
         </div>

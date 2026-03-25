@@ -45,6 +45,10 @@ export function adjustCurrency(state: State, type: CurrencyType, delta: number):
   return { ...state, currency: state.currency.adjust(type, delta) }
 }
 
+export function setCurrency(state: State, type: CurrencyType, value: number): State {
+  return { ...state, currency: state.currency.set(type, value) }
+}
+
 export function setNotes(state: State, notes: string): State {
   return { ...state, notes }
 }

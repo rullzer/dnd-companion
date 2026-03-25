@@ -36,7 +36,16 @@ export const renderWizard = (
       <div class="setup-form">
         <div class="stepper setup-stepper">
           <button ?disabled=${wizard.maxHp <= 1} @click=${() => onChange({ ...wizard, maxHp: wizard.maxHp - 1 })}>-</button>
-          <span>${wizard.maxHp}</span>
+          <input
+            class="stepper-input"
+            type="number"
+            .value=${String(wizard.maxHp)}
+            min="1"
+            @change=${(e: Event) => {
+              const v = parseInt((e.target as HTMLInputElement).value)
+              if (!isNaN(v)) onChange({ ...wizard, maxHp: Math.max(1, v) })
+            }}
+          />
           <button @click=${() => onChange({ ...wizard, maxHp: wizard.maxHp + 1 })}>+</button>
         </div>
         <button @click=${() => onChange({ ...wizard, step: 'spellSlots' })}>Next</button>
@@ -50,7 +59,17 @@ export const renderWizard = (
       <div class="setup-form">
         <div class="stepper setup-stepper">
           <button ?disabled=${wizard.spellLevels <= 0} @click=${() => onChange(setSpellLevels(wizard, wizard.spellLevels - 1))}>-</button>
-          <span>${wizard.spellLevels} level${wizard.spellLevels === 1 ? '' : 's'}</span>
+          <input
+            class="stepper-input"
+            type="number"
+            .value=${String(wizard.spellLevels)}
+            min="0"
+            max="9"
+            @change=${(e: Event) => {
+              const v = parseInt((e.target as HTMLInputElement).value)
+              if (!isNaN(v)) onChange(setSpellLevels(wizard, Math.min(9, Math.max(0, v))))
+            }}
+          />
           <button ?disabled=${wizard.spellLevels >= 9} @click=${() => onChange(setSpellLevels(wizard, wizard.spellLevels + 1))}>+</button>
         </div>
         ${wizard.spellLevels > 0 ? html`
@@ -60,7 +79,16 @@ export const renderWizard = (
                 <label>Level ${i + 1}</label>
                 <div class="stepper">
                   <button ?disabled=${total <= 1} @click=${() => onChange(setSpellSlotTotal(wizard, i, total - 1))}>-</button>
-                  <span>${total}</span>
+                  <input
+                    class="stepper-input"
+                    type="number"
+                    .value=${String(total)}
+                    min="1"
+                    @change=${(e: Event) => {
+                      const v = parseInt((e.target as HTMLInputElement).value)
+                      if (!isNaN(v)) onChange(setSpellSlotTotal(wizard, i, Math.max(1, v)))
+                    }}
+                  />
                   <button @click=${() => onChange(setSpellSlotTotal(wizard, i, total + 1))}>+</button>
                 </div>
               </div>

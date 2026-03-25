@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { setName, damage, heal, setMaximumHealth, setTemporaryHealth, longRest, cast, regainSpellSlot, setSpellLevels, setTotalSpellSlots, adjustCurrency, setNotes } from './actions'
+import { setName, damage, heal, setMaximumHealth, setTemporaryHealth, longRest, cast, regainSpellSlot, setSpellLevels, setTotalSpellSlots, adjustCurrency, setCurrency, setNotes } from './actions'
 import { Health } from './health'
 import { SpellSlots } from './spellslots'
 import { Currency } from './currency'
@@ -104,6 +104,12 @@ describe('setTotalSpellSlots', () => {
 describe('adjustCurrency', () => {
   it('adjusts currency amount', () => {
     expect(adjustCurrency(makeState(), 'gp', 5).currency.gp).toBe(15)
+  })
+})
+
+describe('setCurrency', () => {
+  it('sets currency amount directly', () => {
+    expect(setCurrency(makeState(), 'gp', 50).currency.gp).toBe(50)
   })
 })
 

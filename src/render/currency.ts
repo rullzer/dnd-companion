@@ -12,6 +12,7 @@ const CURRENCY_COLORS: Record<CurrencyType, string> = {
 export const renderCurrency = (
   currency: Currency,
   onAdjust: (type: CurrencyType, delta: number) => void,
+  onSet: (type: CurrencyType, value: number) => void,
 ) => {
   const totalCp = currency.totalInCp();
   const totalGp = (totalCp / 100).toFixed(2).replace(/\.?0+$/, '');
@@ -28,7 +29,16 @@ export const renderCurrency = (
             </div>
             <div class="currency-controls">
               <button ?disabled=${currency[type] <= 0} @click=${() => onAdjust(type, -1)}>-</button>
-              <span class="currency-amount">${currency[type]}</span>
+              <input
+                class="currency-input"
+                type="number"
+                .value=${String(currency[type])}
+                min="0"
+                @change=${(e: Event) => {
+                  const v = parseInt((e.target as HTMLInputElement).value);
+                  if (!isNaN(v)) onSet(type, Math.max(0, v));
+                }}
+              />
               <button @click=${() => onAdjust(type, 1)}>+</button>
             </div>
           </div>

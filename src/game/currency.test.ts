@@ -46,6 +46,23 @@ describe('Currency.adjust', () => {
   })
 })
 
+describe('Currency.set', () => {
+  it('sets a currency amount directly', () => {
+    const c = new Currency({ gp: 10 }).set('gp', 42)
+    expect(c.gp).toBe(42)
+  })
+
+  it('clamps negative values to 0', () => {
+    const c = new Currency({ gp: 10 }).set('gp', -5)
+    expect(c.gp).toBe(0)
+  })
+
+  it('does not affect other currency types', () => {
+    const c = new Currency({ gp: 5, pp: 2 }).set('gp', 99)
+    expect(c.pp).toBe(2)
+  })
+})
+
 describe('Currency.totalInCp', () => {
   it('returns 0 for empty currency', () => {
     expect(new Currency().totalInCp()).toBe(0)

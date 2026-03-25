@@ -49,7 +49,11 @@ function draw() {
           (lvl) => { app = app.cast(lvl); draw(); },
           (lvl) => { app = app.regainSpellSlot(lvl); draw(); },
         )}
-        ${renderCurrency(currency, (type, delta) => { app = app.adjustCurrency(type, delta); draw(); })}
+        ${renderCurrency(
+          currency,
+          (type, delta) => { app = app.adjustCurrency(type, delta); draw(); },
+          (type, value) => { app = app.setCurrency(type, value); draw(); },
+        )}
         ${renderNotes(app.gameState.notes, (notes) => { app = app.setNotes(notes); draw(); })}
         ${isConfigOpen ? renderConfig(
           name,
