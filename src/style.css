@@ -26,6 +26,25 @@
 }
 .config-icon-btn { right: 0; }
 .dice-icon-btn { left: 0; }
+.wakelock-icon-btn {
+  position: absolute;
+  right: 3em;
+  background: transparent;
+  border: none;
+  color: var(--color-icon-btn);
+  padding: 0.6em;
+  line-height: 0;
+  border-radius: 50%;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button.wakelock-icon-btn:hover {
+  background: var(--color-icon-btn-hover-bg);
+  color: var(--color-icon-btn-hover);
+}
 .config-icon-btn:hover,
 .dice-icon-btn:hover {
   background: var(--color-icon-btn-hover-bg);

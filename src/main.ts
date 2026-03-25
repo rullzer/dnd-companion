@@ -17,6 +17,34 @@ const el = document.querySelector<HTMLDivElement>('#app')!;
 let app = App.create(new GameStorage());
 let wizard: Wizard = createWizard();
 
+let wakeLock: WakeLockSentinel | null = null;
+let wakeLockStatus = 'unsupported';
+
+async function acquireWakeLock() {
+  if (!('wakeLock' in navigator)) { wakeLockStatus = 'unsupported'; draw(); return; }
+  try {
+    const permission = await navigator.permissions.query({ name: 'screen-wake-lock' as PermissionName });
+    if (permission.state === 'denied') { wakeLockStatus = `permission: ${permission.state}`; draw(); return; }
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLockStatus = 'active';
+    wakeLock.addEventListener('release', () => { wakeLock = null; wakeLockStatus = 'released'; draw(); });
+    draw();
+  } catch (e) {
+    wakeLockStatus = `denied: ${e instanceof Error ? e.message : String(e)}`;
+    draw();
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') acquireWakeLock();
+});
+
+document.addEventListener('pointerdown', () => {
+  if (wakeLock === null) acquireWakeLock();
+}, { once: true });
+
+acquireWakeLock();
+
 function draw() {
   if (app.needsSetup()) {
     render(
@@ -36,7 +64,7 @@ function draw() {
   render(
     html`
       <div class="container">
-        ${renderHeader(name, () => { app = app.openConfig(); draw(); }, () => { app = app.openDiceModal(); draw(); })}
+        ${renderHeader(name, () => { app = app.openConfig(); draw(); }, () => { app = app.openDiceModal(); draw(); }, wakeLockStatus, acquireWakeLock)}
         ${renderHealth(health, (type) => { app = app.openHpModal(type); draw(); }, () => {
           app = app.openConfirmModal('Take a long rest?', () => {
             app = app.longRest().closeConfirmModal();
