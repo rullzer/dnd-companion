@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-export const renderHeader = (name: string, onConfig: () => void, onDice: () => void, wakeLockStatus: string, onRequestWakeLock: () => void) => html`
+export const renderHeader = (name: string, onConfig: () => void, onDice: () => void, wakeLockStatus: string, onRequestWakeLock: () => void, onReleaseWakeLock: () => void) => html`
   <div class="header">
     <button class="dice-icon-btn" @click=${onDice} aria-label="Dice roller">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -9,11 +9,11 @@ export const renderHeader = (name: string, onConfig: () => void, onDice: () => v
     </button>
     <h1>${name || 'DND Companion'}</h1>
     ${wakeLockStatus === 'active'
-      ? html`<span class="wakelock-icon-btn" title="Screen will stay on" aria-label="Screen wake lock active">
+      ? html`<button class="wakelock-icon-btn" title="Tap to release wake lock" aria-label="Release wake lock" @click=${onReleaseWakeLock}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
             <path d="M12 3V5.25M18.364 5.636l-1.591 1.591M21 12h-2.25M18.364 18.364l-1.591-1.591M12 18.75V21M7.227 16.773l-1.591 1.591M5.25 12H3M7.227 7.227L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z"/>
           </svg>
-        </span>`
+        </button>`
       : html`<button class="wakelock-icon-btn" title="Tap to keep screen on" aria-label="Keep screen on" @click=${onRequestWakeLock}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
             <path d="M21.752 15.002A9 9 0 0 1 8.25 6.001c0-1.33.266-2.597.748-3.752A9 9 0 1 0 21.752 15z"/>

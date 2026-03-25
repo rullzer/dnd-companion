@@ -64,7 +64,7 @@ function draw() {
   render(
     html`
       <div class="container">
-        ${renderHeader(name, () => { app = app.openConfig(); draw(); }, () => { app = app.openDiceModal(); draw(); }, wakeLockStatus, acquireWakeLock)}
+        ${renderHeader(name, () => { app = app.openConfig(); draw(); }, () => { app = app.openDiceModal(); draw(); }, wakeLockStatus, acquireWakeLock, () => { wakeLock?.release(); })}
         ${renderHealth(health, (type) => { app = app.openHpModal(type); draw(); }, () => {
           app = app.openConfirmModal('Take a long rest?', () => {
             app = app.longRest().closeConfirmModal();
