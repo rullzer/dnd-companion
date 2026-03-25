@@ -428,6 +428,7 @@ button {
   cursor: pointer;
   transition: background 0.2s;
   min-height: 44px;
+  touch-action: manipulation;
 }
 button:hover {
   background: #535bf2;
